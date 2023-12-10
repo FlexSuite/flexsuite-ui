@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "analy/Routes": ["modules/analy/src/app/remote-entry/entry.routes.ts"],
+      "atend/Routes": ["modules/atend/src/app/remote-entry/entry.routes.ts"],
+      "conti/Routes": ["modules/conti/src/app/remote-entry/entry.routes.ts"],
+      "fatur/Routes": ["modules/fatur/src/app/remote-entry/entry.routes.ts"],
+      "logis/Routes": ["modules/logis/src/app/remote-entry/entry.routes.ts"],
+      "produ/Routes": ["modules/produ/src/app/remote-entry/entry.routes.ts"],
+      "rehum/Routes": ["modules/rehum/src/app/remote-entry/entry.routes.ts"],
+      "secas/Routes": ["modules/secas/src/app/remote-entry/entry.routes.ts"],
+      "supri/Routes": ["modules/supri/src/app/remote-entry/entry.routes.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

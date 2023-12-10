@@ -1,0 +1,30 @@
+{
+  "name": "produ-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "modules/produ-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "modules/produ-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "produ:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "produ:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "produ:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["produ"]
+}

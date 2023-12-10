@@ -1,0 +1,30 @@
+{
+  "name": "analy-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "modules/analy-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "modules/analy-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "analy:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "analy:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "analy:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["analy"]
+}

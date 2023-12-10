@@ -1,0 +1,30 @@
+{
+  "name": "fatur-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "modules/fatur-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "modules/fatur-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "fatur:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "fatur:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "fatur:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["fatur"]
+}

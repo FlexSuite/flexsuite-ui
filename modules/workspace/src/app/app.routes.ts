@@ -7,7 +7,10 @@ import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
  */
 export const appRoutes: Route[] = [
 
-  //Rotas federadas
+  /**
+   * Rotas federadas
+   */
+
   { path: FlexSuiteModuleRoutes.Suprimentos.Home, loadChildren: () => import('supri/Routes').then((m) => m.remoteRoutes),},
   { path: FlexSuiteModuleRoutes.Atendimento.Home, loadChildren: () => import('atend/Routes').then((m) => m.remoteRoutes),},
   { path: FlexSuiteModuleRoutes.Recursos_Humanos.Home, loadChildren: () => import('rehum/Routes').then((m) => m.remoteRoutes),},
@@ -18,7 +21,9 @@ export const appRoutes: Route[] = [
   { path: FlexSuiteModuleRoutes.Faturamento.Home, loadChildren: () => import('fatur/Routes').then((m) => m.remoteRoutes),},
   { path: FlexSuiteModuleRoutes.Seguranca_e_Controle_de_Acesso.Home, loadChildren: () => import('secas/Routes').then((m) => m.remoteRoutes),},
 
-  //Rotas do workspace
+  /**
+   * Rotas do Workspace
+   */
   {
     path: '',
     component: HomeComponent,

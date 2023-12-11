@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from './core/home/home.component';
 import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
-import { FlexSuiteCommonPages } from '@flexsuite/core/enums';
 
 export const appRoutes: Route[] = [
   {

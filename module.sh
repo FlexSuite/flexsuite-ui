@@ -121,8 +121,7 @@ function disable_sparse_checkout() {
 
 function enable_sparse_checkout() {
     git sparse-checkout init --cone
-    ensure_workspace_module
-    ensure_libs_modules
+    git sparse-checkout set modules/workspace libs
     echo "Sparse checkout ativado."
 }
 

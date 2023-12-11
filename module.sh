@@ -11,11 +11,11 @@ function is_sparse_checkout_active() {
     return $?
 }
 
-# git_status=$(git status --porcelain)
-# if [ -n "$git_status" ]; then
-#     echo "Há mudanças não comitadas no repositório. Por favor, faça commit ou reverta essas mudanças antes de prosseguir."
-#     exit 1
-# fi
+git_status=$(git status --porcelain)
+if [ -n "$git_status" ]; then
+    echo "Há mudanças não comitadas no repositório. Por favor, faça commit ou reverta essas mudanças antes de prosseguir."
+    exit 1
+fi
 
 function list_modules() {
     echo $(git sparse-checkout list | sed 's|.*/||')
@@ -37,6 +37,13 @@ function ensure_workspace_module() {
     if ! git sparse-checkout list | grep -q "$workspace_path"; then
         add_module workspace
     fi
+}
+
+function ensure_libs_modules(){
+  local libs_path="libs"
+  if ! git sparse-checkout list | grep -q "$libs_path"; then
+      git sparse-checkout add $libs_path
+  fi
 }
 
 function add_module(){
@@ -114,6 +121,8 @@ function disable_sparse_checkout() {
 
 function enable_sparse_checkout() {
     git sparse-checkout init --cone
+    ensure_workspace_module
+    ensure_libs_modules
     echo "Sparse checkout ativado."
 }
 

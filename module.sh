@@ -11,17 +11,31 @@ function is_sparse_checkout_active() {
     return $?
 }
 
+function log() {
+    local now=$(date +"%T")
+    local message
+
+    # Itera sobre todos os argumentos
+    for message in "$@"; do
+        local formatted_message="[$now] $message"
+        echo "$formatted_message"
+    done
+}
+
+
 git_status=$(git status --porcelain)
 if [ -n "$git_status" ]; then
-    echo "Há mudanças não comitadas no repositório. Por favor, faça commit ou reverta essas mudanças antes de prosseguir."
-    exit 1
+    log "Há mudanças não comitadas no repositório."
 fi
+
+
 
 function list_modules() {
     echo $(git sparse-checkout list | sed 's|.*/||')
 }
 
 function clear_sparse_checkout() {
+
     if ! is_sparse_checkout_active; then
         echo "Sparse checkout não está ativo."
         exit 1
@@ -46,98 +60,20 @@ function ensure_libs_modules(){
   fi
 }
 
-function add_module(){
-  git sparse-checkout add modules/$module
-  git sparse-checkout add modules/$module-e2e
-  ensure_modules_on_federation
-}
-
-function del_module(){
-  git sparse-checkout list | grep -v "/modules/$module" > .git/info/sparse-checkout
-  git read-tree -mu HEAD
-  ensure_modules_on_federation
-}
-
-function add_modules() {
-    local current_modules=$(list_modules)
-    echo "Módulos disponíveis para adicionar: secas, fatur, analy, conti, logis, produ, rehum, atend, supri"
-    echo "Insira os módulos para adicionar, separados por vírgula:"
-    read -r new_modules
-    IFS=',' read -ra ADDR <<< "$new_modules"
-
-    if [[ " ${ADDR[@]} " =~ " workspace" ]]; then
-        echo "Não é possível adicionar o módulo workspace."
-        exit 1
-    fi
-
-    local added_modules=()
-
-    for module in "${ADDR[@]}"; do
-        if [[ " ${current_modules[@]} " =~ " $module " ]]; then
-            echo "Módulo $module já está no sparse checkout."
-        else
-            ensure_workspace_module
-            add_module $module
-            added_modules+=(' '$module)
-        fi
-    done
-
-    if [ ${#added_modules[@]} -gt 0 ]; then
-        echo "Módulos adicionados: ${added_modules[@]}"
-    fi
-}
-
-function remove_modules() {
-    local current_modules=$(list_modules)
-    echo "Módulos atuais no sparse checkout: $current_modules"
-    echo "Insira os módulos para remover, separados por vírgula:"
-    read -r remove_modules
-    IFS=',' read -ra ADDR <<< "$remove_modules"
-
-    if [[ " ${ADDR[@]} " =~ " workspace" ]]; then
-        echo "Não é possível remover o módulo workspace."
-        exit 1
-    fi
-
-    local deleted_modules=()
-
-    for module in "${ADDR[@]}"; do
-        if [[ " ${current_modules[@]} " =~ " $module " ]]; then
-            del_module $module
-            deleted_modules+=(' '$module)
-        else
-            echo "Módulo $module não está no sparse checkout."
-        fi
-    done
-
-    if [ ${#deleted_modules[@]} -gt 0 ]; then
-        echo "Módulos removidos: ${deleted_modules[@]}"
-    fi
-}
-
-function disable_sparse_checkout() {
-    clear_sparse_checkout
-    git sparse-checkout disable
-    ensure_modules_on_federation
-    echo "Sparse checkout desativado."
-}
-
-function enable_sparse_checkout() {
-    git sparse-checkout init --cone
-    git sparse-checkout set modules/workspace libs
-    ensure_modules_on_federation
-    echo "Sparse checkout ativado."
+function reset_module_federation(){
+  local federation_config_file="modules/workspace/module-federation.config.ts"
+  git restore "$federation_config_file"
+  reset_router_federation
 }
 
 function ensure_modules_on_federation(){
   local federation_config_file="modules/workspace/module-federation.config.ts"
 
-  if ! is_sparse_checkout_active; then
-        # Sparse checkout não está ativo, descomentar todos os módulos
-        sed -i "s/\/\/\s*'/'/" "$federation_config_file"
-        echo "Sparse checkout desativado. Todos os módulos foram descomentados."
-        return
-    fi
+  # checa se o arquivo existe
+  if [ ! -f "$federation_config_file" ]; then
+      log "Arquivo $federation_config_file não encontrado."
+      exit 1
+  fi
 
   # Lista todos os módulos no sparse checkout
   local sparse_checkout_modules=$(git sparse-checkout list)
@@ -154,6 +90,132 @@ function ensure_modules_on_federation(){
           sed -i "s/'$module',/\/\/ '$module',/" "$federation_config_file"
       fi
   done
+
+  ensure_router_federation
+}
+
+function reset_router_federation(){
+  local federation_config_file="modules/workspace/src/app/app.routes.ts"
+  git restore "$federation_config_file"
+}
+
+function ensure_router_federation(){
+  local routes_config_file="modules/workspace/src/app/app.routes.ts"
+
+    # Verifica se o arquivo existe
+    if [ ! -f "$routes_config_file" ]; then
+        log "Arquivo $routes_config_file não encontrado."
+        exit 1
+    fi
+
+    # Lista todos os módulos no sparse checkout
+    local sparse_checkout_modules=$(git sparse-checkout list)
+
+    # Mapeamento dos módulos para nomes esperados no arquivo de rotas
+    declare -A module_map
+    module_map["secas"]="Seguranca_e_Controle_de_Acesso"
+    module_map["fatur"]="Faturamento"
+    module_map["analy"]="Analytics_e_Relatorios"
+    module_map["conti"]="Contabilidade"
+    module_map["logis"]="Logistica"
+    module_map["produ"]="Producao"
+    module_map["rehum"]="Recursos_Humanos"
+    module_map["atend"]="Atendimento"
+    module_map["supri"]="Suprimentos"
+
+    for module in "${!module_map[@]}"; do
+        local route_name=${module_map[$module]}
+        if echo "$sparse_checkout_modules" | grep -q "$module"; then
+            # Descomenta apenas a linha loadChildren para a rota específica
+            sed -i "/FlexSuiteModuleRoutes.${route_name}.Home/,+1 s/^\/\/ //" "$routes_config_file"
+        else
+            # Comenta apenas a linha loadChildren para a rota específica
+            sed -i "/FlexSuiteModuleRoutes.${route_name}.Home/,+1 s/^[^\/]/\/\/ &/" "$routes_config_file"
+        fi
+    done
+}
+
+function add_module(){
+  git sparse-checkout add modules/$module
+  git sparse-checkout add modules/$module-e2e
+}
+
+function del_module(){
+  local sparse_checkout_file=".git/info/sparse-checkout"
+
+  # Cria uma nova lista sem o módulo especificado
+  grep -v "/modules/$module" "$sparse_checkout_file" > temp_sparse_checkout
+  mv temp_sparse_checkout "$sparse_checkout_file"
+
+  # Atualiza a árvore de trabalho
+  git read-tree -mu HEAD
+}
+
+function add_modules() {
+    local current_modules=$(list_modules)
+    log "Módulos disponíveis para adicionar: secas, fatur, analy, conti, logis, produ, rehum, atend, supri"
+    log "Insira os módulos para adicionar, separados por vírgula:"
+    read -r new_modules
+    IFS=',' read -ra ADDR <<< "$new_modules"
+
+    if [[ " ${ADDR[@]} " =~ " workspace" ]]; then
+        log "Não é possível adicionar o módulo workspace."
+        exit 1
+    fi
+
+    for module in "${ADDR[@]}"; do
+        if [[ " ${current_modules[@]} " =~ " $module " ]]; then
+            log "Módulo $module já está no sparse checkout."
+        else
+            add_module $module
+            reset_module_federation
+            ensure_modules_on_federation
+        fi
+    done
+}
+
+function remove_modules() {
+    local current_modules=$(list_modules)
+    log "Módulos atuais no sparse checkout: $current_modules"
+    log "Insira os módulos para remover, separados por vírgula:"
+    read -r remove_modules
+    IFS=',' read -ra ADDR <<< "$remove_modules"
+
+    if [[ " ${ADDR[@]} " =~ " workspace" ]]; then
+        log "Não é possível remover o módulo workspace."
+        exit 1
+    fi
+
+
+    for module in "${ADDR[@]}"; do
+        if [[ " ${current_modules[@]} " =~ " $module " ]]; then
+            del_module $module
+            reset_module_federation
+            ensure_modules_on_federation
+        else
+            log "Módulo $module não está no sparse checkout."
+        fi
+    done
+}
+
+function disable_sparse_checkout() {
+    reset_module_federation
+    clear_sparse_checkout
+    git sparse-checkout disable
+    echo "Sparse checkout desativado."
+}
+
+function enable_sparse_checkout() {
+
+    git sparse-checkout init --cone
+    git sparse-checkout set modules/workspace modules/workspace-e2e libs
+
+    ensure_libs_modules
+    ensure_modules_on_federation
+
+    log "Sparse checkout ativado."
+
+    list_modules_on_sparse_checkout
 }
 
 function help_menu() {
@@ -196,65 +258,68 @@ function help_menu() {
 }
 
 function add_modules_from_args() {
+    log "Adicionando módulos: $1"
     local modules_to_add=($1)
 
     if [[ " ${modules_to_add[@]} " =~ " workspace" ]]; then
-        echo "Não é possível adicionar o módulo workspace."
+        log "Não é possível adicionar o módulo workspace."
         exit 1
     fi
 
     #se vazio
     if [ -z "$modules_to_add" ]; then
-        echo "Nenhum módulo informado."
+        log "Nenhum módulo informado."
         exit 1
     fi
     local current_modules=$(list_modules)
-    local added_modules=()
 
     for module in "${modules_to_add[@]}"; do
       if [[ " ${current_modules[@]} " =~ " $module " ]]; then
-          echo "Módulo $module já está no sparse checkout."
+          log "Módulo $module já está no sparse checkout."
       else
-          ensure_workspace_module
+          reset_module_federation
           add_module $module
-          added_modules+=(' '$module)
+          ensure_modules_on_federation
       fi
     done
 
-    if [ ${#added_modules[@]} -gt 0 ]; then
-        echo "Módulos adicionados: ${added_modules[@]}"
-    fi
+  list_modules_on_sparse_checkout
 }
 
 function remove_modules_from_args() {
+    log "Removendo módulos: $1"
     local modules_to_remove=($1)
 
     if [[ " ${modules_to_remove[@]} " =~ " workspace" ]]; then
-        echo "Não é possível remover o módulo workspace."
+        log "Não é possível remover o módulo workspace."
         exit 1
     fi
 
     #se vazio
     if [ -z "$modules_to_remove" ]; then
-        echo "Nenhum módulo informado."
+        log "Nenhum módulo informado."
         exit 1
     fi
     local current_modules=$(list_modules)
-    local removed_modules=()
 
     for module in "${modules_to_remove[@]}"; do
         if [[ " ${current_modules[@]} " =~ " $module " ]]; then
+            reset_module_federation
             del_module $module
-            removed_modules+=(' '$module)
+            ensure_modules_on_federation
         else
-            echo "Módulo $module não está no sparse checkout."
+            log "Módulo $module não está no sparse checkout."
         fi
     done
+  list_modules_on_sparse_checkout
 
-    if [ ${#removed_modules[@]} -gt 0 ]; then
-        echo "Módulos removidos: ${removed_modules[@]}"
-    fi
+}
 
+function list_modules_on_sparse_checkout(){
+  local modules_on_sparse_checkout=$(git sparse-checkout list | sed 's|.*/||')
+
+  log "Modulos ativos:"
+  log $modules_on_sparse_checkout
 }
 
 if [[ "$#" -gt 0 ]]; then
@@ -263,14 +328,14 @@ if [[ "$#" -gt 0 ]]; then
       case $1 in
           -e|--enable)
             if is_sparse_checkout_active; then
-                echo "Sparse checkout já está ativo."
+                log "Sparse checkout já está ativo."
                 exit 1
             fi
             enable_sparse_checkout
             shift ;;
           -d|--disable)
             if ! is_sparse_checkout_active; then
-                echo "Sparse checkout não está ativo."
+                log "Sparse checkout não está ativo."
                 exit 1
             fi
             disable_sparse_checkout;
@@ -278,16 +343,18 @@ if [[ "$#" -gt 0 ]]; then
           -c|--clear) clear_sparse_checkout; shift 2 ;;
           -a|--add)
               if ! is_sparse_checkout_active; then
-                  echo "Sparse checkout não está ativo. Ative-o com a opção -e ou --enable."
-                  exit 1
+                log "Sparse checkout não está ativo. Ativando"
+                enable_sparse_checkout
               fi
+
               modules_to_add=${2//,/ }
+
               add_modules_from_args "$modules_to_add"
               shift 2
               ;;
           -r|--del)
               if ! is_sparse_checkout_active; then
-                  echo "Sparse checkout não está ativo. Ative-o com a opção -e ou --enable."
+                  log "Sparse checkout não está ativo. Ative-o com a opção -e ou --enable."
                   exit 1
               fi
 

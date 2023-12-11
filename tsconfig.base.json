@@ -15,6 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@flexsuite/core": ["libs/core/src/index.ts"],
+      "@flexsuite/core/interfaces": ["libs/core/src/lib/interfaces/index.ts"],
+      "@flexsuite/core/enums": ["libs/core/src/lib/enums/index.ts"],
+      "@flexsuite/core/constants": ["libs/core/src/lib/constants/index.ts"],
+      "@flexsuite/core/icons": ["libs/core/src/lib/icons/index.ts"],
       "analy/Routes": ["modules/analy/src/app/remote-entry/entry.routes.ts"],
       "atend/Routes": ["modules/atend/src/app/remote-entry/entry.routes.ts"],
       "conti/Routes": ["modules/conti/src/app/remote-entry/entry.routes.ts"],

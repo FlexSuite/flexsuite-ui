@@ -49,11 +49,13 @@ function ensure_libs_modules(){
 function add_module(){
   git sparse-checkout add modules/$module
   git sparse-checkout add modules/$module-e2e
+  ensure_modules_on_federation
 }
 
 function del_module(){
   git sparse-checkout list | grep -v "/modules/$module" > .git/info/sparse-checkout
   git read-tree -mu HEAD
+  ensure_modules_on_federation
 }
 
 function add_modules() {
@@ -116,13 +118,42 @@ function remove_modules() {
 function disable_sparse_checkout() {
     clear_sparse_checkout
     git sparse-checkout disable
+    ensure_modules_on_federation
     echo "Sparse checkout desativado."
 }
 
 function enable_sparse_checkout() {
     git sparse-checkout init --cone
     git sparse-checkout set modules/workspace libs
+    ensure_modules_on_federation
     echo "Sparse checkout ativado."
+}
+
+function ensure_modules_on_federation(){
+  local federation_config_file="modules/workspace/module-federation.config.ts"
+
+  if ! is_sparse_checkout_active; then
+        # Sparse checkout não está ativo, descomentar todos os módulos
+        sed -i "s/\/\/\s*'/'/" "$federation_config_file"
+        echo "Sparse checkout desativado. Todos os módulos foram descomentados."
+        return
+    fi
+
+  # Lista todos os módulos no sparse checkout
+  local sparse_checkout_modules=$(git sparse-checkout list)
+
+  # Módulos conhecidos que podem estar no arquivo de configuração
+  local all_modules=("secas" "fatur" "analy" "conti" "logis" "produ" "rehum" "atend" "supri")
+
+  for module in "${all_modules[@]}"; do
+      if echo "$sparse_checkout_modules" | grep -q "$module"; then
+          # Descomenta o módulo no arquivo se ele estiver no sparse checkout
+          sed -i "s/\/\/\s*'$module',/'$module',/" "$federation_config_file"
+      else
+          # Comenta o módulo no arquivo se ele não estiver no sparse checkout
+          sed -i "s/'$module',/\/\/ '$module',/" "$federation_config_file"
+      fi
+  done
 }
 
 function help_menu() {

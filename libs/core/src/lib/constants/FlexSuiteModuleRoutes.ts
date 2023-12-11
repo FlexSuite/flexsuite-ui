@@ -3,39 +3,39 @@ import { ModuleRoutes } from "../interfaces/IFlexSuiteNavigation";
 
 export const FlexSuiteModuleRoutes: ModuleRoutes = {
     [FlexSuiteModules.WORKS]: {
-        [FlexSuiteCommonPages.HOME]: '/',
+        [FlexSuiteCommonPages.HOME]: '',
     },
     [FlexSuiteModules.FATUR]: {
-        [FlexSuiteCommonPages.HOME]: '/revenue',
-        [FlexSuiteFaturPages.COBRANCAS]: '/revenue/billing',
-        [FlexSuiteFaturPages.FATURAS]: '/revenue/invoices',
-        [FlexSuiteFaturPages.CONFIGURACOES]: '/revenue/settings',
+        [FlexSuiteCommonPages.HOME]: 'revenue',
+        [FlexSuiteFaturPages.COBRANCAS]: 'revenue/billing',
+        [FlexSuiteFaturPages.FATURAS]: 'revenue/invoices',
+        [FlexSuiteFaturPages.CONFIGURACOES]: 'revenue/settings',
     },
     [FlexSuiteModules.SECAS]: {
-        [FlexSuiteCommonPages.HOME]: '/security',
-        [FlexSuiteSecasPages.PRESTADORES]: '/security/providers',
-        [FlexSuiteSecasPages.USUARIOS]: '/security/users',
-        [FlexSuiteSecasPages.CONFIGURACOES]: '/security/settings',
+        [FlexSuiteCommonPages.HOME]: 'security',
+        [FlexSuiteSecasPages.PRESTADORES]: 'security/providers',
+        [FlexSuiteSecasPages.USUARIOS]: 'security/users',
+        [FlexSuiteSecasPages.CONFIGURACOES]: 'security/settings',
     },
     [FlexSuiteModules.ANALY]: {
-        [FlexSuiteCommonPages.HOME]: '/analytics',
+        [FlexSuiteCommonPages.HOME]: 'analytics',
     },
     [FlexSuiteModules.CONTI]: {
-        [FlexSuiteCommonPages.HOME]: '/accounting',
+        [FlexSuiteCommonPages.HOME]: 'accounting',
     },
     [FlexSuiteModules.LOGIS]: {
-        [FlexSuiteCommonPages.HOME]: '/logistics',
+        [FlexSuiteCommonPages.HOME]: 'logistics',
     },
     [FlexSuiteModules.PRODU]: {
-        [FlexSuiteCommonPages.HOME]: '/production',
+        [FlexSuiteCommonPages.HOME]: 'production',
     },
     [FlexSuiteModules.REHUM]: {
-        [FlexSuiteCommonPages.HOME]: '/resources',
+        [FlexSuiteCommonPages.HOME]: 'resources',
     },
     [FlexSuiteModules.ATEND]: {
-        [FlexSuiteCommonPages.HOME]: '/attendance',
+        [FlexSuiteCommonPages.HOME]: 'attendance',
     },
     [FlexSuiteModules.SUPRI]: {
-        [FlexSuiteCommonPages.HOME]: '/supplies',
+        [FlexSuiteCommonPages.HOME]: 'supplies',
     },
 }

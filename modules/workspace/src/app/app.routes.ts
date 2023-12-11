@@ -1,41 +1,43 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from './core/home/home.component';
+import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
+import { FlexSuiteCommonPages } from '@flexsuite/core/enums';
 
 export const appRoutes: Route[] = [
   {
-    path: 'supri',
+    path: FlexSuiteModuleRoutes.Suprimentos.Home,
     loadChildren: () => import('supri/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'atend',
+    path: FlexSuiteModuleRoutes.Atendimento.Home,
     loadChildren: () => import('atend/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'rehum',
+    path: FlexSuiteModuleRoutes.Recursos_Humanos.Home,
     loadChildren: () => import('rehum/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'produ',
+    path: FlexSuiteModuleRoutes.Producao.Home,
     loadChildren: () => import('produ/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'logis',
+    path: FlexSuiteModuleRoutes.Logistica.Home,
     loadChildren: () => import('logis/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'conti',
+    path: FlexSuiteModuleRoutes.Contabilidade.Home,
     loadChildren: () => import('conti/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'analy',
+    path: FlexSuiteModuleRoutes.Analytics_e_Relatorios.Home,
     loadChildren: () => import('analy/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'fatur',
+    path: FlexSuiteModuleRoutes.Faturamento.Home,
     loadChildren: () => import('fatur/Routes').then((m) => m.remoteRoutes),
   },
   {
-    path: 'secas',
+    path: FlexSuiteModuleRoutes.Seguranca_e_Controle_de_Acesso.Home,
     loadChildren: () => import('secas/Routes').then((m) => m.remoteRoutes),
   },
   {

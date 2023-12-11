@@ -19,7 +19,7 @@
   <div class="grid grid-cols-3 gap-4 p-4">
     <a
       *ngFor="let module of modules"
-      href="#"
+      [href]="module?.path"
       class="dark p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group items-center flex flex-col"
     >
       <workspace-icon [icon]="module?.icon ?? ''" forcedClass="w-5 h-5 text-white"/>

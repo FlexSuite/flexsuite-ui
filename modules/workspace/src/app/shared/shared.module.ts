@@ -6,13 +6,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SearchComponent } from './components/navbar/components/search/search.component';
 import { AppsComponent } from './components/navbar/components/apps/apps.component';
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
-import { IconComponent } from './components/icon/icon.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
+import { FoundationModule } from '@flexsuite/foundation';
 
 @NgModule({
   declarations: [
     SidebarComponent,
-    IconComponent,
 
     //Navbar Components
     NavbarComponent,
@@ -21,7 +20,7 @@ import { ProfileComponent } from './components/navbar/components/profile/profile
     NotificationComponent,
     ProfileComponent,
   ],
-  imports: [HttpClientModule, CommonModule],
+  imports: [HttpClientModule, CommonModule, FoundationModule],
   providers: [],
   exports: [NavbarComponent, SidebarComponent, SearchComponent],
 })

@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { notificationIcon } from '@flexsuite/core/icons';
 import { INotificationItem } from '@flexsuite/core/interfaces';
+import { eyeIcon } from '@flexsuite/core/icons'
 
 @Component({
   selector: 'workspace-navbar-notification',
   templateUrl: './notification.component.html',
 })
 export class NotificationComponent {
-  icon = notificationIcon;
+  notIcon = notificationIcon;
+  seeNotIcon = eyeIcon;
 
   notifications: INotificationItem[] = [
     {

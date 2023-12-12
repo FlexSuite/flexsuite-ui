@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { initFlowbite } from 'flowbite';
+import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
 
 @Component({
   standalone: true,
@@ -13,6 +14,11 @@ import { initFlowbite } from 'flowbite';
 })
 export class AppComponent implements OnInit{
   title = 'workspace';
+
+  constructor(
+    private navigation:FlexSuiteNavigationService
+  ){
+  }
 
   ngOnInit(){
     initFlowbite();

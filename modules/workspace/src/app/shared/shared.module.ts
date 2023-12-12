@@ -8,6 +8,8 @@ import { AppsComponent } from './components/navbar/components/apps/apps.componen
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
 import { IconComponent } from '@flexsuite/foundation/components';
+import { ItemComponent } from './components/sidebar/components/item/item.component';
+import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
 
 @NgModule({
   declarations: [
@@ -19,14 +21,14 @@ import { IconComponent } from '@flexsuite/foundation/components';
     AppsComponent,
     NotificationComponent,
     ProfileComponent,
-    
 
     //Foundation Components
     IconComponent,
-    
+
+    ItemComponent,
   ],
   imports: [HttpClientModule, CommonModule],
-  providers: [],
-  exports: [NavbarComponent, SidebarComponent, SearchComponent],
+  providers: [FlexSuiteNavigationService],
+  exports: [NavbarComponent, SidebarComponent, SearchComponent, ItemComponent],
 })
 export class SharedModule {}

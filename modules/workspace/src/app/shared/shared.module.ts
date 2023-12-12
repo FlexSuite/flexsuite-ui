@@ -7,7 +7,7 @@ import { SearchComponent } from './components/navbar/components/search/search.co
 import { AppsComponent } from './components/navbar/components/apps/apps.component';
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
-import { FoundationModule } from '@flexsuite/foundation';
+import { IconComponent } from '@flexsuite/foundation/components';
 
 @NgModule({
   declarations: [
@@ -19,8 +19,13 @@ import { FoundationModule } from '@flexsuite/foundation';
     AppsComponent,
     NotificationComponent,
     ProfileComponent,
+    
+
+    //Foundation Components
+    IconComponent,
+    
   ],
-  imports: [HttpClientModule, CommonModule, FoundationModule],
+  imports: [HttpClientModule, CommonModule],
   providers: [],
   exports: [NavbarComponent, SidebarComponent, SearchComponent],
 })

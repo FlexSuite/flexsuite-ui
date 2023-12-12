@@ -18,6 +18,7 @@
       
       "@flexsuite/foundation": ["libs/foundation/src/index.ts"],
       "@flexsuite/foundation/components": ["libs/foundation/src/lib/components/index.ts"],
+      "@flexsuite/foundation/services": ["libs/foundation/src/lib/services/index.ts"],
       
       "@flexsuite/core": ["libs/core/src/index.ts"],
       "@flexsuite/core/constants": ["libs/core/src/lib/constants/index.ts"],

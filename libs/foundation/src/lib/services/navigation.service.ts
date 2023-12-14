@@ -1,29 +1,59 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
-import { FlexSuiteCommonPages, FlexSuiteModules } from '@flexsuite/core/enums';
-import { NavigationPages } from '@flexsuite/core/interfaces';
+import { FlexSuiteModules } from '@flexsuite/core/enums';
+import { IFlexSuiteNavigationInfo, ModulePages, NavigationPages } from '@flexsuite/core/interfaces';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlexSuiteNavigationService {
-  private _currentPath = '';
-  private _currentModule: FlexSuiteModules = FlexSuiteModules.WORKS;
-  private _currentPage: NavigationPages = FlexSuiteCommonPages.HOME;
-  private _currentRoutes: { [key: string]: string } = {};
+  private _currentPath: string | undefined;
+  private _currentModule: FlexSuiteModules | undefined;
+  private _currentPage: NavigationPages | undefined;
+  private _currentRoutes: ModulePages | undefined;
 
-  constructor() {
-    this._currentPath = window.location.pathname.replace('/', '');
-    this.getCurrentModuleAndPage();
-    this.checkAndModifyTitle();
+  private _currentInfo: BehaviorSubject<IFlexSuiteNavigationInfo>;
+
+  public get information() {
+    return this._currentInfo.asObservable();
   }
 
-  getCurrentPath(): string {
-    return this._currentPath;
+  private updateInformation(){
+    this._currentInfo.next({
+      path: this._currentPath ?? '',
+      module: this._currentModule,
+      page: this._currentPage,
+      routes: this._currentRoutes,
+    })
   }
 
-  getCurrentModuleAndPage() {
+  constructor(
+    private router: Router
+  ) {
+
+    this._currentInfo = new BehaviorSubject<IFlexSuiteNavigationInfo>({
+      path: '',
+      module: undefined,
+      page: undefined,
+      routes: undefined,
+    });
+
+
+    this.router.events.subscribe((route) => {
+      if(route instanceof NavigationEnd){
+        this._currentPath = route.urlAfterRedirects.replace('/',''),
+
+        this.getCurrentModuleAndPage();
+        this.checkAndModifyTitle();
+        this.updateInformation();
+      }
+    })
+  }
+
+  private getCurrentModuleAndPage() {
     Object.entries(FlexSuiteModuleRoutes).forEach(([module, pages]) => {
       if (!pages) return;
       // Iterando sobre as páginas do módulo
@@ -43,7 +73,7 @@ export class FlexSuiteNavigationService {
     });
   }
 
-  checkAndModifyTitle(): void {
+  private checkAndModifyTitle(): void {
     if (!this._currentModule || !this._currentPage) return;
     const moduleKey = Object.keys(FlexSuiteModules).find((key: any) => {
       const moduleFound =
@@ -53,5 +83,9 @@ export class FlexSuiteNavigationService {
     });
 
     document.title = `${moduleKey !== 'WORKS'? `[${moduleKey}] `: ''}${this._currentPage !== 'Home' ? `${this._currentPage} - ` : ''}FlexSuite ERP`
+  }
+
+  public navigate(path: string): void {
+    this.router.navigate([path])
   }
 }

@@ -3,6 +3,7 @@ import { IAppItem } from "../interfaces/IAppItem"
 import { ISidebarItem } from "../interfaces/ISidebarItem"
 import { FlexSuiteIcons } from "../icons/FlexSuiteIcons"
 import { FlexSuiteModuleRoutes } from "./FlexSuiteModuleRoutes"
+import { matLock } from "@ng-icons/material-icons/baseline"
 
 export const AppMenu: IAppItem[] = [
 
@@ -69,7 +70,7 @@ export const FlexSuiteSidebarItems:{
         {
             id: 1,
             label: "Controle de Acesso",
-            icon: 'matLock',
+            icon: matLock,
             children: [
                 {
                     id: 2,

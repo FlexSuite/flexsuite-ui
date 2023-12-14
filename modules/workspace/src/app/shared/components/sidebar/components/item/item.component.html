@@ -1,0 +1,40 @@
+<li [ngClass]="isAChild ? 'pl-5' : ''">
+  <button
+    type="button"
+    [id]="btnId"
+    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+    [attr.aria-controls]="dropdownId"
+    [attr.data-collapse-toggle]="dropdownId"
+    (click)="onclick()"
+  >
+    <ng-container *ngIf="item.icon">
+        <foundation-icon [icon]="item.icon" class="w-5 h-5"/>
+    </ng-container>
+
+    <span class="ml-3">{{ item.label }}</span>
+
+    <ng-container *ngIf="item.badge">
+      <span
+        class="ml-2 inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded-full text-primary-800 bg-primary-100 dark:bg-primary-200 dark:text-primary-800"
+      >
+        {{ item.badge }}
+      </span>
+    </ng-container>
+
+    <span *ngIf="item.children" class="ms-5">
+      <!-- Substitua por seu ícone de seta para baixo -->
+    </span>
+  </button>
+
+  <ul *ngIf="item.children" [id]="dropdownId" class="hidden py-2 space-y-2">
+    <workspace-sidebar-item
+      *ngFor="let child of item.children"
+      [item]="child"
+      [isAChild]="true"
+    ></workspace-sidebar-item>
+  </ul>
+
+  <div class=" absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full flex dark:bg-gray-800 z-20">
+
+  </div>
+</li>

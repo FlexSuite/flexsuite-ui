@@ -1,1 +1,85 @@
-<p>sidebar works!</p>
+<aside
+  class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  aria-label="Sidenav"
+  id="drawer-navigation"
+>
+  <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
+    <ul class="space-y-2 font-medium">
+      <li>
+        <workspace-search [mobile]="true" [sidebar]="true" />
+      </li>
+      <workspace-sidebar-item *ngFor="let item of items" [item]="item" />
+    </ul>
+  </div>
+
+  <div
+    class="absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full flex dark:bg-gray-800 z-20"
+  >
+    <a
+      data-tooltip-target="tooltip-settings"
+      class="inline-flex justify-center p-2 text-gray-500 rounded-md cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+    >
+      <foundation-icon [icon]="simpleSettingsIcon" class="w-6 h-6" />
+    </a>
+
+    <a
+      id="language-menu"
+      class="inline-flex justify-center p-2 text-gray-500 rounded-md cursor-pointer dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600"
+    >
+      <foundation-icon [icon]="worldIcon" class="w-6 h-6" />
+    </a>
+    <!-- ToolTips -->
+      <div
+      id="tooltip-settings"
+      role="tooltip"
+      class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip"
+    >
+      Configurações do workspace
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+
+    <div
+      id="language-tooltip"
+      role="tooltip"
+      class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip"
+    >
+      Idiomas
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+
+    <!-- Dropdown idiomas -->
+
+    <div
+            class="hidden z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
+            id="language-dropdown"
+            >
+      <ul class="py-1" role="none">
+        <li>
+          <a
+            class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600"
+                    role="menuitem"
+                >
+            Português (BR)
+          </a>
+
+          <a
+            class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600"
+                    role="menuitem"
+                >
+            English (US)
+          </a>
+
+          <a
+            class="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:text-white dark:text-gray-300 dark:hover:bg-gray-600"
+                    role="menuitem"
+                >
+            Español
+          </a>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+</aside>

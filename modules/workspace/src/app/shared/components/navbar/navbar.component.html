@@ -12,11 +12,13 @@
         >
           <foundation-icon [icon]="menuIcon"/>
           <foundation-icon [icon]="closeIcon" forcedClass="hidden"/>
-          
+
           <span class="sr-only">Toggle navbar</span>
         </button>
 
-        <a href="/" class="flex-shrink-0 flex items-center">
+        <a
+          (click)="navigateToHome()"
+          class="cursor-pointer flex-shrink-0 flex items-center">
           <img
             class="h-8 w-8"
             src="assets/white-icon.png"

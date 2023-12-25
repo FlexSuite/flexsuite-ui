@@ -5,6 +5,7 @@ import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
 import { FlexSuiteModules } from '@flexsuite/core/enums';
 import { IFlexSuiteNavigationInfo, ModulePages, NavigationPages } from '@flexsuite/core/interfaces';
 import { BehaviorSubject } from 'rxjs';
+import { LoaderService } from './loader.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,21 +18,10 @@ export class FlexSuiteNavigationService {
 
   private _currentInfo: BehaviorSubject<IFlexSuiteNavigationInfo>;
 
-  public get information() {
-    return this._currentInfo.asObservable();
-  }
-
-  private updateInformation(){
-    this._currentInfo.next({
-      path: this._currentPath ?? '',
-      module: this._currentModule,
-      page: this._currentPage,
-      routes: this._currentRoutes,
-    })
-  }
 
   constructor(
-    private router: Router
+    private router: Router,
+    private loader: LoaderService
   ) {
 
     this._currentInfo = new BehaviorSubject<IFlexSuiteNavigationInfo>({
@@ -50,6 +40,19 @@ export class FlexSuiteNavigationService {
         this.checkAndModifyTitle();
         this.updateInformation();
       }
+    })
+  }
+
+  public get information() {
+    return this._currentInfo.asObservable();
+  }
+
+  private updateInformation(){
+    this._currentInfo.next({
+      path: this._currentPath ?? '',
+      module: this._currentModule,
+      page: this._currentPage,
+      routes: this._currentRoutes,
     })
   }
 
@@ -86,6 +89,8 @@ export class FlexSuiteNavigationService {
   }
 
   public navigate(path: string): void {
-    this.router.navigate([path])
+    this.loader.show();
+    this.router.navigate([path]);
   }
+
 }

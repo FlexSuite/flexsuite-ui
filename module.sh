@@ -7,9 +7,19 @@ echo "*                                                        *"
 echo "**********************************************************"
 
 function is_sparse_checkout_active() {
-    git rev-parse --is-inside-work-tree &> /dev/null && git sparse-checkout list &> /dev/null
-    return $?
+    local sparse_checkout_file=".git/info/sparse-checkout"
+
+    if git rev-parse --is-inside-work-tree &> /dev/null; then
+        if [ -f "$sparse_checkout_file" ] && [ -s "$sparse_checkout_file" ]; then
+            return 0  # Sparse Checkout ativo
+        else
+            return 1  # Sparse Checkout não ativo
+        fi
+    else
+        return 1  # Não está dentro de uma árvore de trabalho Git
+    fi
 }
+
 
 function log() {
     local now=$(date +"%T")

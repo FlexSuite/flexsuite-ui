@@ -7,9 +7,14 @@ import { SearchComponent } from './components/navbar/components/search/search.co
 import { AppsComponent } from './components/navbar/components/apps/apps.component';
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
-import { IconComponent } from '@flexsuite/foundation/components';
 import { ItemComponent } from './components/sidebar/components/item/item.component';
 import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
+
+import {
+  IconComponent,
+  LoadingSpinnerComponent,
+} from '@flexsuite/foundation/components';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -21,14 +26,21 @@ import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
     AppsComponent,
     NotificationComponent,
     ProfileComponent,
-
-    //Foundation Components
     IconComponent,
-
     ItemComponent,
+
+    //Foundation components
+    LoadingSpinnerComponent,
+    LoaderComponent,
   ],
   imports: [HttpClientModule, CommonModule],
   providers: [FlexSuiteNavigationService],
-  exports: [NavbarComponent, SidebarComponent, SearchComponent, ItemComponent],
+  exports: [
+    NavbarComponent,
+    SidebarComponent,
+    SearchComponent,
+    ItemComponent,
+    LoaderComponent,
+  ],
 })
 export class SharedModule {}

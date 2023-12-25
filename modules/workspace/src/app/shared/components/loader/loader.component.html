@@ -1,0 +1,30 @@
+<div
+  id="workspace-loader-container"
+  [ngClass]="{'opacity-0 pointer-events-none': !loading}"
+  class=" fixed top-0 left-0 right-0 bottom-0 workspace-loader
+          bg-gray-800 flex flex-col justify-center items-center
+          transition-all duration-250">
+  <div [ngClass]="
+    !hasError? 'w-10 h-10 mb-2' : 'w-20 h-20'
+  ">
+    <foundation-loading-spinner *ngIf="loading && !hasError"/>
+    <foundation-icon [icon]="errorIcon" *ngIf="hasError" forcedClass="w-full h-full text-white opacity-50"/>
+  </div>
+  <div [ngClass]="
+  {
+    'pt-5 text-slate-500': !hasError,
+    'pt-5 text-white opacity-50': hasError
+  }
+  ">
+    {{message}}
+  </div>
+  <div
+    class="mt-2"
+    *ngIf="hasError">
+      <div
+      *ngFor="let error of errorMessages"
+      class="pt-2 text-sm text-red-500 opacity-60 text-center">
+        {{error}}
+      </div>
+  </div>
+</div>

@@ -38,11 +38,14 @@ export class LoaderService {
     this._loadingMessage.next(message);
   }
 
-  error(messages: string[] | string, error: Error): void {
+  error(messages: string[] | string, error?: Error): void {
     const tempMessages = Array.isArray(messages) ? messages : [messages];
 
     if(!this._loading.value)
       (this._loading as BehaviorSubject<boolean>).next(true);
+
+    if(!error)
+      error = new Error(tempMessages[0]);
 
     this._error.next(true);
 

@@ -1,22 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
-import { FlexSuiteModules } from '@flexsuite/core/enums';
-import { IFlexSuiteNavigationInfo, ModulePages, NavigationPages } from '@flexsuite/core/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { LoaderService } from './loader.service';
+import { interfaces as CoreI, enums as CoreE, constants as CoreC } from '@flexsuite/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlexSuiteNavigationService {
   private _currentPath: string | undefined;
-  private _currentModule: FlexSuiteModules | undefined;
-  private _currentPage: NavigationPages | undefined;
-  private _currentRoutes: ModulePages | undefined;
+  private _currentModule: CoreE.FlexSuiteModules | undefined;
+  private _currentPage: CoreI.NavigationPages | undefined;
+  private _currentRoutes: CoreI.ModulePages | undefined;
 
-  private _currentInfo: BehaviorSubject<IFlexSuiteNavigationInfo>;
+  private _currentInfo: BehaviorSubject<CoreI.IFlexSuiteNavigationInfo>;
 
 
   constructor(
@@ -24,7 +22,7 @@ export class FlexSuiteNavigationService {
     private loader: LoaderService
   ) {
 
-    this._currentInfo = new BehaviorSubject<IFlexSuiteNavigationInfo>({
+    this._currentInfo = new BehaviorSubject<CoreI.IFlexSuiteNavigationInfo>({
       path: '',
       module: undefined,
       page: undefined,
@@ -57,15 +55,15 @@ export class FlexSuiteNavigationService {
   }
 
   private getCurrentModuleAndPage() {
-    Object.entries(FlexSuiteModuleRoutes).forEach(([module, pages]) => {
+    Object.entries(CoreC.FlexSuiteModuleRoutes).forEach(([module, pages]) => {
       if (!pages) return;
       // Iterando sobre as páginas do módulo
       Object.keys(pages).forEach((page) => {
         if ((pages as string)[page as any] === this._currentPath) {
-          this._currentModule = module as FlexSuiteModules;
-          this._currentPage = page as NavigationPages;
+          this._currentModule = module as CoreE.FlexSuiteModules;
+          this._currentPage = page as CoreI.NavigationPages;
 
-          Object.entries(FlexSuiteModuleRoutes).forEach(([mod, pages]) => {
+          Object.entries(CoreC.FlexSuiteModuleRoutes).forEach(([mod, pages]) => {
             if (mod === module) {
               this._currentRoutes = pages;
               return;
@@ -78,9 +76,9 @@ export class FlexSuiteNavigationService {
 
   private checkAndModifyTitle(): void {
     if (!this._currentModule || !this._currentPage) return;
-    const moduleKey = Object.keys(FlexSuiteModules).find((key: any) => {
+    const moduleKey = Object.keys(CoreE.FlexSuiteModules).find((key: any) => {
       const moduleFound =
-        FlexSuiteModules[key as keyof typeof FlexSuiteModules];
+        CoreE.FlexSuiteModules[key as keyof typeof CoreE.FlexSuiteModules];
       if (moduleFound === this._currentModule) return true;
       return false;
     });

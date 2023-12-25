@@ -5,7 +5,10 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "types": [],
+    "paths": {
+      "@flexsuite/core": ["dist/libs/core"],
+    }
   },
   "exclude": [
     "src/**/*.spec.ts",

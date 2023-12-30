@@ -1,4 +1,4 @@
-import { FlexSuiteCommonPages, FlexSuiteFaturPages, FlexSuiteModules, FlexSuiteSecasPages } from "../enums/FlexSuiteNavigation"
+import { FlexSuiteCommonPages, FlexSuiteFaturPages, FlexSuiteModules, FlexSuiteSecasPages, FlexSuiteWorksPages } from "../enums/FlexSuiteNavigation"
 
 interface IFlexSuiteNavigationModule{
     name: string
@@ -38,6 +38,7 @@ export type ModulePages = {
 export type NavigationPages = (
 
       FlexSuiteCommonPages |
+      FlexSuiteWorksPages |
       FlexSuiteFaturPages |
       FlexSuiteSecasPages
   )

@@ -15,6 +15,10 @@ export enum FlexSuiteCommonPages{
   'HOME' = 'Home',
 }
 
+export enum FlexSuiteWorksPages {
+  'LOGIN' = 'Login',
+}
+
 export enum FlexSuiteFaturPages {
   'COBRANCAS' = 'Cobrancas',
   'FATURAS' = 'Faturas',

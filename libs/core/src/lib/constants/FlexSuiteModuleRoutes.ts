@@ -1,9 +1,10 @@
-import { FlexSuiteCommonPages, FlexSuiteFaturPages, FlexSuiteModules, FlexSuiteSecasPages } from "../enums/FlexSuiteNavigation";
+import { FlexSuiteCommonPages, FlexSuiteFaturPages, FlexSuiteModules, FlexSuiteSecasPages, FlexSuiteWorksPages } from "../enums/FlexSuiteNavigation";
 import { ModuleRoutes } from "../interfaces/IFlexSuiteNavigation";
 
 export const FlexSuiteModuleRoutes: ModuleRoutes = {
     [FlexSuiteModules.WORKS]: {
         [FlexSuiteCommonPages.HOME]: '',
+        [FlexSuiteWorksPages.LOGIN]: 'auth',
     },
     [FlexSuiteModules.FATUR]: {
         [FlexSuiteCommonPages.HOME]: 'revenue',

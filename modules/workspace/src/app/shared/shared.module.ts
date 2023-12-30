@@ -8,11 +8,12 @@ import { AppsComponent } from './components/navbar/components/apps/apps.componen
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
 import { ItemComponent } from './components/sidebar/components/item/item.component';
-import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService, NotificationService } from '@flexsuite/foundation/services';
 
 import {
   IconComponent,
   LoadingSpinnerComponent,
+  NotificationComponent as FoundationNotificationComponent
 } from '@flexsuite/foundation/components';
 import { LoaderComponent } from './components/loader/loader.component';
 
@@ -32,15 +33,23 @@ import { LoaderComponent } from './components/loader/loader.component';
     //Foundation components
     LoadingSpinnerComponent,
     LoaderComponent,
+    FoundationNotificationComponent
   ],
-  imports: [HttpClientModule, CommonModule],
-  providers: [FlexSuiteNavigationService],
+  imports: [
+    HttpClientModule,
+    CommonModule
+  ],
+  providers: [
+    FlexSuiteNavigationService,
+    NotificationService
+  ],
   exports: [
     NavbarComponent,
     SidebarComponent,
     SearchComponent,
     ItemComponent,
     LoaderComponent,
+    FoundationNotificationComponent
   ],
 })
 export class SharedModule {}

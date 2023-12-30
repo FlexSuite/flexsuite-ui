@@ -1,4 +1,4 @@
-export * as constants from './lib/constants'
-export * as enums from './lib/enums'
-export * as icons from './lib/icons'
-export * as interfaces from './lib/interfaces'
+export * as CoreConstants from './lib/constants'
+export * as CoreEnums from './lib/enums'
+export * as CoreIcons from './lib/icons'
+export * as CoreInterfaces from './lib/interfaces'

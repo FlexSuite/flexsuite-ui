@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { enums  as CoreE, interfaces as CoreI} from '@flexsuite/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  _notifications: BehaviorSubject<CoreI.INotification[]>
+  private _notifications: BehaviorSubject<CoreI.INotification[]>
 
   constructor() {
     this._notifications = new BehaviorSubject<CoreI.INotification[]>([]);
@@ -20,15 +20,15 @@ export class NotificationService {
 
   clear = () => this._notifications.next([]);
 
-  list = () => this._notifications.getValue();
-  listPush = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.PUSH);
-  listSystem = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.DEFAULT);
-  listNotRead = () => this._notifications.getValue().filter(n => !n.read);
+  list = () => this._notifications.asObservable();
+  listPush = () => this._notifications.pipe(map(n => n.filter(n => n.type === CoreE.NotificationType.PUSH)));
+  listSystem = () => this._notifications.pipe(map(n => n.filter(n => n.type === CoreE.NotificationType.DEFAULT)));
+  listNotRead = () => this._notifications.pipe(map(n => n.filter(n => !n.read)));
 
-  count = () => this._notifications.getValue().length;
-  countNotRead = () => this._notifications.getValue().filter(n => !n.read).length;
-  countSystem = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.DEFAULT).length;
-  countPush = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.PUSH).length;
+  count = () => this._notifications.pipe(map(n => n.length));
+  countNotRead = () => this._notifications.pipe(map(n => n.filter(n => !n.read).length));
+  countSystem = () => this._notifications.pipe(map(n => n.filter(n => n.type === CoreE.NotificationType.DEFAULT).length));
+  countPush = () => this._notifications.pipe(map(n => n.filter(n => n.type === CoreE.NotificationType.PUSH).length));
 
   send(props: CoreI.NotificationSendProps){
     const notifications = this._notifications.getValue();

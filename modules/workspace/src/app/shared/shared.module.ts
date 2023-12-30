@@ -16,6 +16,7 @@ import {
   NotificationComponent as FoundationNotificationComponent
 } from '@flexsuite/foundation/components';
 import { LoaderComponent } from './components/loader/loader.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,17 +28,17 @@ import { LoaderComponent } from './components/loader/loader.component';
     AppsComponent,
     NotificationComponent,
     ProfileComponent,
-    IconComponent,
     ItemComponent,
-
-    //Foundation components
-    LoadingSpinnerComponent,
     LoaderComponent,
-    FoundationNotificationComponent
   ],
   imports: [
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    FormsModule,
+    //Foundation components
+    LoadingSpinnerComponent,
+    IconComponent,
+    FoundationNotificationComponent
   ],
   providers: [
     FlexSuiteNavigationService,
@@ -49,6 +50,10 @@ import { LoaderComponent } from './components/loader/loader.component';
     SearchComponent,
     ItemComponent,
     LoaderComponent,
+
+    //Foundation components
+    LoadingSpinnerComponent,
+    IconComponent,
     FoundationNotificationComponent
   ],
 })

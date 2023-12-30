@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { NotificationType } from 'libs/core/src/lib/enums';
-import { INotification, NotificationSendProps } from 'libs/core/src/lib/interfaces';
+import { enums  as CoreE, interfaces as CoreI} from '@flexsuite/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  _notifications: BehaviorSubject<INotification[]>
+  _notifications: BehaviorSubject<CoreI.INotification[]>
 
   constructor() {
-    this._notifications = new BehaviorSubject<INotification[]>([]);
+    this._notifications = new BehaviorSubject<CoreI.INotification[]>([]);
   }
 
   get ob() {
@@ -22,23 +21,23 @@ export class NotificationService {
   clear = () => this._notifications.next([]);
 
   list = () => this._notifications.getValue();
-  listPush = () => this._notifications.getValue().filter(n => n.type === NotificationType.PUSH);
-  listSystem = () => this._notifications.getValue().filter(n => n.type === NotificationType.DEFAULT);
+  listPush = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.PUSH);
+  listSystem = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.DEFAULT);
   listNotRead = () => this._notifications.getValue().filter(n => !n.read);
 
   count = () => this._notifications.getValue().length;
   countNotRead = () => this._notifications.getValue().filter(n => !n.read).length;
-  countSystem = () => this._notifications.getValue().filter(n => n.type === NotificationType.DEFAULT).length;
-  countPush = () => this._notifications.getValue().filter(n => n.type === NotificationType.PUSH).length;
+  countSystem = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.DEFAULT).length;
+  countPush = () => this._notifications.getValue().filter(n => n.type === CoreE.NotificationType.PUSH).length;
 
-  send(props: NotificationSendProps){
+  send(props: CoreI.NotificationSendProps){
     const notifications = this._notifications.getValue();
 
-    const notification: INotification = {
+    const notification: CoreI.INotification = {
       id: Math.random().toString(36).substring(2, 15),
       title: props.title,
       description: props.description,
-      type: props.type || NotificationType.DEFAULT,
+      type: props.type || CoreE.NotificationType.DEFAULT,
       authorId: props.authorId,
       author: props.author,
       read: props.read || false,

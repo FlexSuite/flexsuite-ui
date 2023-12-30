@@ -8,6 +8,7 @@ export interface INotification {
     authorId?: string;
     author?: string;
     read: boolean;
+    system: boolean;
     viewedAt?: Date;
     createdAt: Date;
 }
@@ -15,6 +16,7 @@ export interface INotification {
 export interface NotificationSendProps {
     title: string,
     description: string,
+    system?: boolean,
     type?: NotificationType,
     authorId?: string,
     author?: string,

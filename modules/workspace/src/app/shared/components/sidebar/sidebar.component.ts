@@ -27,7 +27,6 @@ export class SidebarComponent implements OnInit{
 
   ngOnInit(): void {
     this.navigation.information.subscribe((info) => {
-      console.log('sobrescreveu', info)
       this.navInfo = info
       this.items = FlexSuiteSidebarItems[info.module ?? FlexSuiteModules.WORKS]
     })

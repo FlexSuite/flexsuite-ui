@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  standalone: true,
   selector: 'foundation-icon',
   template: `<div [innerHTML]="sanitizedSvg"></div>`,
 })

@@ -1,11 +1,8 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { enums  as CoreE, interfaces as CoreI} from '@flexsuite/core';
 import { NotificationService } from '../../services';
-import { ToastComponent } from './toast.component';
+
 @Component({
-  standalone: true,
-  imports: [ ToastComponent ],
-  providers: [ NotificationService ],
   selector: 'foundation-notification',
   templateUrl: './notification.component.html',
 })

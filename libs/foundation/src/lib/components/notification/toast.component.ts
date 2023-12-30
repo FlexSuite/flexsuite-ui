@@ -1,10 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { enums  as CoreE, interfaces as CoreI} from '@flexsuite/core';
-import { IconComponent } from '../icon/icon.component';
 
 @Component({
-  standalone: true,
-  imports: [ IconComponent ],
   selector: 'foundation-toast',
   template: ` <div
                 id="notification-{{notification.id}}"

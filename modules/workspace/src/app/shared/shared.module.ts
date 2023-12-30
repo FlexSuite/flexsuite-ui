@@ -10,13 +10,9 @@ import { ProfileComponent } from './components/navbar/components/profile/profile
 import { ItemComponent } from './components/sidebar/components/item/item.component';
 import { FlexSuiteNavigationService, NotificationService } from '@flexsuite/foundation/services';
 
-import {
-  IconComponent,
-  LoadingSpinnerComponent,
-  NotificationComponent as FoundationNotificationComponent
-} from '@flexsuite/foundation/components';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FormsModule } from '@angular/forms';
+import { FoundationModule } from '@flexsuite/foundation';
 
 @NgModule({
   declarations: [
@@ -36,9 +32,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     //Foundation components
-    LoadingSpinnerComponent,
-    IconComponent,
-    FoundationNotificationComponent
+    FoundationModule,
   ],
   providers: [
     FlexSuiteNavigationService,
@@ -52,9 +46,7 @@ import { FormsModule } from '@angular/forms';
     LoaderComponent,
 
     //Foundation components
-    LoadingSpinnerComponent,
-    IconComponent,
-    FoundationNotificationComponent
+    FoundationModule,
   ],
 })
 export class SharedModule {}

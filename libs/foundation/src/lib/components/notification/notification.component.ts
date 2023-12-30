@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { enums  as CoreE, interfaces as CoreI} from '@flexsuite/core';
+import { CoreInterfaces as CoreI} from '@flexsuite/core';
 import { NotificationService } from '../../services';
 
 @Component({
@@ -7,8 +7,8 @@ import { NotificationService } from '../../services';
   templateUrl: './notification.component.html',
 })
 export class NotificationComponent implements OnInit{
-  icons = CoreE.NotificationIcon;
-  _notifications: CoreI.INotification[] = []
+
+  _toastNotifications: CoreI.INotification[] = []
   private _allNotifications: CoreI.INotification[] = []
   private TIME_TO_DESTROY = 2000; // 2 seconds
 
@@ -18,15 +18,15 @@ export class NotificationComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.notificationService.listNotRead().subscribe((notifications) => this.checkNotifications(notifications))
+    this.notificationService.listSystemNotRead().subscribe((notifications) => this.checkToastNotification(notifications))
     this.notificationService.list().subscribe((notifications) => this._allNotifications = notifications)
   }
 
-  checkNotifications(notifications: CoreI.INotification[]) {
+  checkToastNotification(notifications: CoreI.INotification[]) {
     notifications.forEach( notification => {
       console.log(`Verificando notificação ${notification.id}`)
       //Já existe?
-      if(this._notifications.find( n => n.id === notification.id)) return;
+      if(this._toastNotifications.find( n => n.id === notification.id)) return;
       //Não existe?
       else {
         console.log(`Notificação ${notification.id} não existe`)
@@ -43,7 +43,7 @@ export class NotificationComponent implements OnInit{
           }
         }else {
           //Não achou na lista geral, então remove da lista de notificações
-          this._notifications = this._notifications.filter( n => n.id !== notification.id);
+          this._toastNotifications = this._toastNotifications.filter( n => n.id !== notification.id);
         }
       }
 
@@ -52,7 +52,7 @@ export class NotificationComponent implements OnInit{
 
   showNotification(notification: CoreI.INotification) {
     console.log(`Exibindo notificação ${notification.id}`)
-    this._notifications.push(notification);
+    this._toastNotifications.push(notification);
     this.zone.run(() => {})
     const $notification = document.getElementById(`notification-${notification.id}`);
     console.log($notification)

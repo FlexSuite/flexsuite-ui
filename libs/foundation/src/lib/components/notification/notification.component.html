@@ -1,3 +1,5 @@
-<div class="absolute bottom-0 right-0 mb-4 mr-4 space-y-2">
-  <foundation-toast/>
+<div class="absolute bottom-0 right-0 mb-4 mr-4 space-y-2 flex flex-col">
+  <foundation-toast
+    *ngFor="let notification of _toastNotifications"
+    [notification]="notification"/>
 </div>

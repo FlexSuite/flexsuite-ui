@@ -1,5 +1,6 @@
 import { FlexSuiteCommonPages, FlexSuiteFaturPages, FlexSuiteModules, FlexSuiteSecasPages, FlexSuiteWorksPages } from "../enums/FlexSuiteNavigation";
-import { ModuleRoutes } from "../interfaces/IFlexSuiteNavigation";
+import { IFlexSuiteNavigationInfo } from "../interfaces";
+import { ModuleRoutes, NavigationPages } from "../interfaces/IFlexSuiteNavigation";
 
 export const FlexSuiteModuleRoutes: ModuleRoutes = {
     [FlexSuiteModules.WORKS]: {
@@ -39,4 +40,25 @@ export const FlexSuiteModuleRoutes: ModuleRoutes = {
     [FlexSuiteModules.SUPRI]: {
         [FlexSuiteCommonPages.HOME]: 'supplies',
     },
+}
+
+
+const FlexSuiteHideNavComponentsToRoute: {
+  module: FlexSuiteModules,
+  pages: NavigationPages[]
+}[] = [
+  {
+    module: FlexSuiteModules.WORKS,
+    pages: [
+      FlexSuiteWorksPages.LOGIN
+    ]
+  }
+]
+
+export const FlexSuiteHideNavCompToRoute = ( { module , page } : IFlexSuiteNavigationInfo): boolean => {
+  const moduleRoutes = FlexSuiteHideNavComponentsToRoute.find(m => m.module === module)
+  if (moduleRoutes && page) {
+    return moduleRoutes.pages.includes(page)
+  }
+  return false
 }

@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from './core/home/home.component';
 import { FlexSuiteModuleRoutes } from '@flexsuite/core/constants';
+import { LoginComponent } from './core/login/login.component';
 /**
  * Rotas do FlexSuite
  * Não alterar estrutura das rotas federadas
@@ -25,7 +26,11 @@ export const appRoutes: Route[] = [
    * Rotas do Workspace
    */
   {
-    path: '',
+    path : FlexSuiteModuleRoutes.Workspace.Home,
     component: HomeComponent,
+  },
+  {
+    path : FlexSuiteModuleRoutes.Workspace.Login,
+    component: LoginComponent,
   }
 ];

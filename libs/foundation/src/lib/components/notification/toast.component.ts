@@ -10,7 +10,7 @@ import { CoreEnums as CoreE, CoreInterfaces as CoreI, CoreIcons} from '@flexsuit
                         opacity-0 transition-all duration-300
                         divide-x rtl:divide-x-reverse
                         rounded-md shadow divide-gray-700 space-x
-                        ring-0 hover:ring-1 ring-slate-300 bg-gray-200
+                        ring-0 hover:ring-1 ring-slate-600 bg-gray-900
                         "
                 (click)="destroyNotification()"
                 role="alert">

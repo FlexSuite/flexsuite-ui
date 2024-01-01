@@ -1,5 +1,16 @@
 <workspace-loader/>
 <workspace-sidebar/>
 <workspace-navbar/>
-<router-outlet/>
+<main
+  [ngClass]="{
+    'bg-slate-100 pt-10 md:ps-64 w-full min-h-screen': showPadding()
+  }">
+  <div class="w-full p-10"
+  [ngClass]="{
+    'w-full p-10': showPadding()
+  }"
+  >
+    <router-outlet/>
+  </div>
+</main>
 <foundation-notification/>

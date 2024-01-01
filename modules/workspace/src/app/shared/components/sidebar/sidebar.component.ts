@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FlexSuiteSidebarItems } from '@flexsuite/core/constants';
+import { FlexSuiteHideNavCompToRoute, FlexSuiteSidebarItems } from '@flexsuite/core/constants';
 import { FlexSuiteModules } from '@flexsuite/core/enums';
 import { simpleSettingsIcon, worldIcon } from '@flexsuite/core/icons';
 import { IFlexSuiteNavigationInfo, ISidebarItem } from '@flexsuite/core/interfaces';
@@ -12,7 +12,7 @@ import { Dropdown, DropdownInterface, DropdownOptions, Tooltip, TooltipInterface
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent implements OnInit{
-  navInfo: IFlexSuiteNavigationInfo | undefined = undefined
+  navigationInfo: IFlexSuiteNavigationInfo | undefined = undefined
   items: ISidebarItem[] = []
   simpleSettingsIcon = simpleSettingsIcon
   worldIcon = worldIcon
@@ -27,8 +27,7 @@ export class SidebarComponent implements OnInit{
 
   ngOnInit(): void {
     this.navigation.information.subscribe((info) => {
-      console.log('sobrescreveu', info)
-      this.navInfo = info
+      this.navigationInfo = info
       this.items = FlexSuiteSidebarItems[info.module ?? FlexSuiteModules.WORKS]
     })
 
@@ -75,6 +74,12 @@ export class SidebarComponent implements OnInit{
 
     this.languageTooltip = new Tooltip($tooltip, $target, tooltipOptions, tooltipInstance)
     this.languageDropdown = new Dropdown($dropdown, $target, dropdownOptions, dropdownInstance)
+  }
+
+  showSidebar(){
+    if(!this.navigationInfo) return false
+
+    return !FlexSuiteHideNavCompToRoute( this.navigationInfo )
   }
 
 }

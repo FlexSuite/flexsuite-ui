@@ -21,9 +21,6 @@
       "@flexsuite/core/icons": ["libs/core/src/lib/icons/index.ts"],
       "@flexsuite/core/interfaces": ["libs/core/src/lib/interfaces/index.ts"],
       "@flexsuite/foundation": ["libs/foundation/src/index.ts"],
-      "@flexsuite/foundation/components": [
-        "libs/foundation/src/lib/components/index.ts"
-      ],
       "@flexsuite/foundation/services": [
         "libs/foundation/src/lib/services/index.ts"
       ],

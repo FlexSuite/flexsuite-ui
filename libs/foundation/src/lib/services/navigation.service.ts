@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { LoaderService } from './loader.service';
-import { interfaces as CoreI, enums as CoreE, constants as CoreC } from '@flexsuite/core';
+import { CoreInterfaces as CoreI, CoreEnums as CoreE, CoreConstants as CoreC } from '@flexsuite/core';
 
 @Injectable({
   providedIn: 'root',
@@ -88,7 +88,10 @@ export class FlexSuiteNavigationService {
 
   public navigate(path: string): void {
     this.loader.show();
-    this.router.navigate([path]);
+    setTimeout(() => {
+      //Aguarda aparição do loading
+      this.router.navigate([path]);
+    },250)
   }
 
 }

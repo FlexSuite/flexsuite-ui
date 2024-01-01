@@ -8,13 +8,11 @@ import { AppsComponent } from './components/navbar/components/apps/apps.componen
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
 import { ItemComponent } from './components/sidebar/components/item/item.component';
-import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService, NotificationService } from '@flexsuite/foundation/services';
 
-import {
-  IconComponent,
-  LoadingSpinnerComponent,
-} from '@flexsuite/foundation/components';
 import { LoaderComponent } from './components/loader/loader.component';
+import { FormsModule } from '@angular/forms';
+import { FoundationModule } from '@flexsuite/foundation';
 
 @NgModule({
   declarations: [
@@ -26,21 +24,29 @@ import { LoaderComponent } from './components/loader/loader.component';
     AppsComponent,
     NotificationComponent,
     ProfileComponent,
-    IconComponent,
     ItemComponent,
-
-    //Foundation components
-    LoadingSpinnerComponent,
     LoaderComponent,
   ],
-  imports: [HttpClientModule, CommonModule],
-  providers: [FlexSuiteNavigationService],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    //Foundation components
+    FoundationModule,
+  ],
+  providers: [
+    FlexSuiteNavigationService,
+    NotificationService
+  ],
   exports: [
     NavbarComponent,
     SidebarComponent,
     SearchComponent,
     ItemComponent,
     LoaderComponent,
+
+    //Foundation components
+    FoundationModule,
   ],
 })
 export class SharedModule {}

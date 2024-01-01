@@ -5,13 +5,12 @@ import { CoreEnums as CoreE, CoreInterfaces as CoreI, CoreIcons} from '@flexsuit
   selector: 'foundation-toast',
   template: ` <div
                 id="notification-{{notification.id}}"
-                class=" flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse
+                class=" flex items-center w-96 max-w-xs p-4 space-x-4 rtl:space-x-reverse
                         select-none cursor-pointer
                         opacity-0 transition-all duration-300
                         divide-x rtl:divide-x-reverse
                         rounded-md shadow divide-gray-700 space-x
-                        ring-0 hover:ring-1 ring-slate-600 bg-gray-900
-                        "
+                        ring-0 hover:ring-1 ring-slate-600 bg-gray-900"
                 (click)="destroyNotification()"
                 role="alert">
                 <foundation-icon

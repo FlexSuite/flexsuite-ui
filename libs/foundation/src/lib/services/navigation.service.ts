@@ -88,7 +88,10 @@ export class FlexSuiteNavigationService {
 
   public navigate(path: string): void {
     this.loader.show();
-    this.router.navigate([path]);
+    setTimeout(() => {
+      //Aguarda aparição do loading
+      this.router.navigate([path]);
+    },250)
   }
 
 }

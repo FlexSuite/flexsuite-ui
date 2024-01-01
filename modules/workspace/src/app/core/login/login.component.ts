@@ -1,6 +1,7 @@
 import { FlexSuiteNavigationService, LoaderService, NotificationService } from '@flexsuite/foundation/services';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CoreUtils } from '@flexsuite/core';
 
 @Component({
   selector: 'workspace-login',
@@ -33,17 +34,11 @@ export class LoginComponent implements OnInit {
     const {
       username,
       password,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       remember,
     } = formData.value;
 
-    if(formData.controls['username'].invalid) {
-      this.notification.error({description: 'Usuário inválido!'});
-      this.notification.send("Acesse com nome.sobrenome no usuário")
-      return;
-    }
-
     this.loader.show('Autenticando...');
-
 
     if (username === 'flex.suite' && password === 'admin') {
       setTimeout(()=>{
@@ -51,7 +46,23 @@ export class LoginComponent implements OnInit {
         this.navigation.navigate('');
       }, Math.random() * 2500);
     } else {
-      this.notification.error({description: 'Usuário ou senha inválidos!'});
+      const validateUserName = CoreUtils.validateUsername(username)
+      const validatePassword = CoreUtils.validatePassword(password)
+      const hasError = !validatePassword.valid || !validateUserName.valid;
+
+      if(!validateUserName.valid)
+        this.notification.alert({description: validateUserName.message});
+
+      if(!validatePassword.valid)
+        this.notification.alert({description: validatePassword.message});
+
+      if(hasError){
+        this.loader.hide();
+        return;
+      }
+
+      this.notification.alert({description: 'Usuário ou senha inválidos!'});
+      this.loader.hide();
     }
 
 

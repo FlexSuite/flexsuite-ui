@@ -9,15 +9,15 @@ export const FlexSuiteModuleRoutes: ModuleRoutes = {
     },
     [FlexSuiteModules.FATUR]: {
         [FlexSuiteCommonPages.HOME]: 'revenue',
-        [FlexSuiteFaturPages.COBRANCAS]: 'revenue/billing',
-        [FlexSuiteFaturPages.FATURAS]: 'revenue/invoices',
-        [FlexSuiteFaturPages.CONFIGURACOES]: 'revenue/settings',
+        [FlexSuiteFaturPages.COBRANCAS]: 'billing',
+        [FlexSuiteFaturPages.FATURAS]: 'invoices',
+        [FlexSuiteFaturPages.CONFIGURACOES]: 'settings',
     },
     [FlexSuiteModules.SECAS]: {
         [FlexSuiteCommonPages.HOME]: 'security',
-        [FlexSuiteSecasPages.PRESTADORES]: 'security/providers',
-        [FlexSuiteSecasPages.USUARIOS]: 'security/users',
-        [FlexSuiteSecasPages.CONFIGURACOES]: 'security/settings',
+        [FlexSuiteSecasPages.PRESTADORES]: 'providers',
+        [FlexSuiteSecasPages.USUARIOS]: 'users',
+        [FlexSuiteSecasPages.CONFIGURACOES]: 'settings',
     },
     [FlexSuiteModules.ANALY]: {
         [FlexSuiteCommonPages.HOME]: 'analytics',

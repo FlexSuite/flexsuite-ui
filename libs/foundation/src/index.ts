@@ -15,3 +15,5 @@ export * from './lib/components/breadcumb/breadcumb.component';
 
 export * from './lib/components/page-title/page-title.component';
 export * from './lib/components/action-controller/action-controller.component';
+
+export * from './lib/components/buttons/action-button.component';

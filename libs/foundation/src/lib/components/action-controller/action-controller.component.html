@@ -1,1 +1,59 @@
-<p>ActionController works!</p>
+
+<div class="grid grid-cols-12 gap-3">
+  <div class="col-span-12 md:col-span-6">
+    <form class="flex items-center">
+      <label for="simple-search" class="sr-only">Search</label>
+      <div class="relative w-full">
+        <div
+          class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+        >
+          <foundation-icon
+            forcedClass="w-4 h-4 text-gray-500"
+            [icon]="searchIcon"/>
+        </div>
+        <input
+          [(ngModel)]="searchText"
+          [ngModelOptions]="{standalone: true}"
+          type="text"
+          id="simple-search"
+          class="bg-gray-50 border border-gray-300 text-gray-900
+                  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
+                  block w-full ps-10 p-1.5"
+          placeholder="Procurar por..."
+          required
+          (keydown)="onSearchEnterKey($event)"
+        />
+      </div>
+      <foundation-action-button
+        [icon]="searchIcon"
+        label="Pesquisar"
+        (buttonClick)="onSearchBtnClick()"
+      />
+    </form>
+
+  </div>
+
+  <div class="hidden md:block col-span-2">
+
+  </div>
+
+  <div class="col-span-12 md:col-span-4 flex justify-end items-center">
+    <foundation-action-button
+      [icon]="saveIconSolid"
+      label="Salvar"
+      color="blue"
+    />
+    <foundation-action-button
+      [icon]="refreshIcon"
+      label="Atualizar"
+      color="blue"
+    />
+    <foundation-action-button
+      [icon]="addIcon"
+      label="Novo"
+      color="blue"
+    />
+  </div>
+
+
+</div>

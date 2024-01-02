@@ -21,9 +21,6 @@
       "@flexsuite/core/icons": ["libs/core/src/lib/icons/index.ts"],
       "@flexsuite/core/interfaces": ["libs/core/src/lib/interfaces/index.ts"],
       "@flexsuite/foundation": ["libs/foundation/src/index.ts"],
-      "@flexsuite/foundation/services": [
-        "libs/foundation/src/lib/services/index.ts"
-      ],
       "analy/Routes": ["modules/analy/src/app/remote-entry/entry.routes.ts"],
       "atend/Routes": ["modules/atend/src/app/remote-entry/entry.routes.ts"],
       "conti/Routes": ["modules/conti/src/app/remote-entry/entry.routes.ts"],

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CoreInterfaces } from '@flexsuite/core';
 import { FlexSuiteNavigationService } from '../../services/navigation.service';
 
@@ -7,6 +7,8 @@ import { FlexSuiteNavigationService } from '../../services/navigation.service';
   templateUrl: './breadcumb.component.html',
 })
 export class BreadcumbComponent implements OnInit {
+  @Input({}) solidBackground = false
+  @Input({}) hideHr = false
   breadcumb: CoreInterfaces.IBreadCumbRoad | undefined
   roads: CoreInterfaces.IBreadCumbRoad[] = []
 

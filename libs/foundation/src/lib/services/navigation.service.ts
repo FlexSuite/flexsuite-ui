@@ -96,6 +96,19 @@ export class FlexSuiteNavigationService {
         }
       }
     })
+
+    if(!this._currentModule && !this._currentPage){
+      Object.entries(CoreC.FlexSuiteModuleRoutes).forEach(([module, pages]) => {
+        Object.entries(pages).forEach(([page, route]) => {
+          if(route === tempModuleRoute){
+            this._currentModule = module as CoreE.FlexSuiteModules;
+            this._currentPage = page as CoreI.NavigationPages;
+            this._currentRoutes = pages;
+            return;
+          }
+        })
+      })
+    }
   }
 
   private checkAndModifyTitle(): void {

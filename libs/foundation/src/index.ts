@@ -13,4 +13,5 @@ export * from './lib/components/icon/icon.component';
 
 export * from './lib/components/breadcumb/breadcumb.component';
 
-export * from './lib/components/page-title/PageTitle.component';
+export * from './lib/components/page-title/page-title.component';
+export * from './lib/components/action-controller/action-controller.component';

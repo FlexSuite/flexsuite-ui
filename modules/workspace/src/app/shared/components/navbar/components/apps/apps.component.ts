@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppMenu } from '@flexsuite/core/constants';
 import { appIcon } from '@flexsuite/core/icons';
 import { IAppItem } from '@flexsuite/core/interfaces';
-import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService } from '@flexsuite/foundation';
 import { Dropdown, DropdownInterface, DropdownOptions } from 'flowbite';
 @Component({
   selector: 'workspace-navbar-apps',

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { initFlowbite } from 'flowbite';
-import { FlexSuiteNavigationService, LoaderService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService, LoaderService } from '@flexsuite/foundation';
 import { IFlexSuiteNavigationInfo } from '@flexsuite/core/interfaces';
 import { FlexSuiteHideNavCompToRoute } from '@flexsuite/core/constants';
 import { CommonModule } from '@angular/common';

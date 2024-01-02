@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { errorIcon } from '@flexsuite/core/icons';
-import { LoaderService } from '@flexsuite/foundation/services';
+import { LoaderService } from '@flexsuite/foundation';
 
 @Component({
   selector: 'workspace-loader',

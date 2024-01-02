@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FlexSuiteHideNavCompToRoute } from '@flexsuite/core/constants';
 import { closeIcon, menuIcon } from '@flexsuite/core/icons';
 import { IFlexSuiteNavigationInfo } from '@flexsuite/core/interfaces';
-import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService } from '@flexsuite/foundation';
 @Component({
   selector: 'workspace-navbar',
   templateUrl: './navbar.component.html',

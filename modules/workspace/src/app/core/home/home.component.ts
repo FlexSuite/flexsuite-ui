@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { LoaderService } from "@flexsuite/foundation/services";
+import { LoaderService } from "@flexsuite/foundation";
 
 @Component({
   selector: 'workspace-home',

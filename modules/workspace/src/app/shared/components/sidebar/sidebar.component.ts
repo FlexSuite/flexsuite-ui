@@ -3,7 +3,7 @@ import { FlexSuiteHideNavCompToRoute, FlexSuiteSidebarItems } from '@flexsuite/c
 import { FlexSuiteModules } from '@flexsuite/core/enums';
 import { simpleSettingsIcon, worldIcon } from '@flexsuite/core/icons';
 import { IFlexSuiteNavigationInfo, ISidebarItem } from '@flexsuite/core/interfaces';
-import { FlexSuiteNavigationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService } from '@flexsuite/foundation';
 import { Dropdown, DropdownInterface, DropdownOptions, Tooltip, TooltipInterface, TooltipOptions } from 'flowbite';
 
 @Component({

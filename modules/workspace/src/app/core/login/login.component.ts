@@ -1,4 +1,4 @@
-import { FlexSuiteNavigationService, LoaderService, NotificationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService, LoaderService, NotificationService } from '@flexsuite/foundation';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CoreUtils } from '@flexsuite/core';

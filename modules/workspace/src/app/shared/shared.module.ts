@@ -8,7 +8,7 @@ import { AppsComponent } from './components/navbar/components/apps/apps.componen
 import { NotificationComponent } from './components/navbar/components/notification/notification.component';
 import { ProfileComponent } from './components/navbar/components/profile/profile.component';
 import { ItemComponent } from './components/sidebar/components/item/item.component';
-import { FlexSuiteNavigationService, NotificationService } from '@flexsuite/foundation/services';
+import { FlexSuiteNavigationService, NotificationService } from '@flexsuite/foundation';
 
 import { LoaderComponent } from './components/loader/loader.component';
 import { FormsModule } from '@angular/forms';

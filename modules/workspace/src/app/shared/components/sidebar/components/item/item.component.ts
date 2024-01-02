@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ISidebarItem } from '@flexsuite/core/interfaces';
+import { FlexSuiteNavigationService } from '@flexsuite/foundation';
 import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -22,9 +23,9 @@ export class ItemComponent implements OnChanges {
   btnId = ''
   dropdownId: string | undefined = undefined
 
-  constructor() {
-
-  }
+  constructor(
+    private navigation: FlexSuiteNavigationService
+  ) { }
 
   ngOnChanges(): void {
     initFlowbite()
@@ -40,8 +41,7 @@ export class ItemComponent implements OnChanges {
 
   onclick(): void {
     if(!this.item.children || (this.isAChild && !this.item.children)){
-      //To-DO: Navigate to path
-      console.log(`Clicked on ${this.item.label}`)
+      this.navigation.navigate(this.item?.path ?? "")
     }
   }
 

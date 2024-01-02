@@ -6,6 +6,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { ToastComponent } from './notification/toast.component';
 import { NotificationComponent } from './notification/notification.component';
 import { BreadcumbComponent } from './breadcumb/breadcumb.component';
+import { PageTitleComponent } from './page-title/PageTitle.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { BreadcumbComponent } from './breadcumb/breadcumb.component';
     ToastComponent,
     NotificationComponent,
     BreadcumbComponent,
+    PageTitleComponent,
   ],
   imports: [CommonModule, FormsModule],
   exports: [
@@ -22,6 +24,7 @@ import { BreadcumbComponent } from './breadcumb/breadcumb.component';
     ToastComponent,
     NotificationComponent,
     BreadcumbComponent,
+    PageTitleComponent,
   ],
 })
 export class FoundationCommonModule {}

@@ -12,3 +12,5 @@ export * from './lib/components/notification/toast.component';
 export * from './lib/components/icon/icon.component';
 
 export * from './lib/components/breadcumb/breadcumb.component';
+
+export * from './lib/components/page-title/PageTitle.component';

@@ -34,8 +34,6 @@ export class ToastComponent implements AfterViewInit{
   }
 
   showNotification(){
-    console.log(`Exibindo notificação ${this.notification.id}`, this.$notification)
-
     switch(this.notification.type){
       case CoreE.NotificationType.INFO:
         this.$notification?.classList.add('text-slate-500');
@@ -58,8 +56,6 @@ export class ToastComponent implements AfterViewInit{
   }
 
   destroyNotification(){
-    console.log(`Destruindo notificação ${this.notification.id}`, this.$notification)
-
     if(!this.$notification) return;
 
     this.$notification.classList.remove('opacity-100');
@@ -68,8 +64,6 @@ export class ToastComponent implements AfterViewInit{
   }
 
   removeNotification(){
-    console.log(`Removendo notificação ${this.notification.id}`, this.$notification)
-
     if(!this.$notification) return;
     this.$notification.remove();
   }

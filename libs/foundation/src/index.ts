@@ -1,4 +1,6 @@
-export * as services from './lib/services';
+export * from './lib/services/navigation.service'
+export * from './lib/services/loader.service'
+export * from './lib/services/notification.service'
 
 //Module
 export * from './lib/foundation.module';

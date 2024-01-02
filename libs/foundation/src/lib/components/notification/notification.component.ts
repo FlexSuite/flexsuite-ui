@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { CoreInterfaces as CoreI} from '@flexsuite/core';
-import { NotificationService } from '../../services';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'foundation-notification',
@@ -24,20 +24,16 @@ export class NotificationComponent implements OnInit{
 
   checkToastNotification(notifications: CoreI.INotification[]) {
     notifications.forEach( notification => {
-      console.log(`Verificando notificação ${notification.id}`)
       //Já existe?
       if(this._toastNotifications.find( n => n.id === notification.id)) return;
       //Não existe?
       else {
-        console.log(`Notificação ${notification.id} não existe`)
         const tempNotification = this._allNotifications.find( n => n.id === notification.id);
 
         //Achou na lista geral?
         if(tempNotification) {
-          console.log(`Notificação ${notification.id} achada na lista geral`)
           //Não foi lido?
           if(!tempNotification.read) {
-            console.log(`Notificação ${notification.id} não foi lida`)
             //Exibe notificação
             this.showNotification(tempNotification);
           }
@@ -51,11 +47,8 @@ export class NotificationComponent implements OnInit{
   }
 
   showNotification(notification: CoreI.INotification) {
-    console.log(`Exibindo notificação ${notification.id}`)
     this._toastNotifications.push(notification);
     this.zone.run(() => {})
-    const $notification = document.getElementById(`notification-${notification.id}`);
-    console.log($notification)
   }
 
 }

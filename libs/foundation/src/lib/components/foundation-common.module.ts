@@ -5,8 +5,7 @@ import { IconComponent } from './icon/icon.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { ToastComponent } from './notification/toast.component';
 import { NotificationComponent } from './notification/notification.component';
-
-
+import { BreadcumbComponent } from './breadcumb/breadcumb.component';
 
 @NgModule({
   declarations: [
@@ -14,16 +13,15 @@ import { NotificationComponent } from './notification/notification.component';
     LoadingSpinnerComponent,
     ToastComponent,
     NotificationComponent,
+    BreadcumbComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, FormsModule],
   exports: [
     IconComponent,
     LoadingSpinnerComponent,
     ToastComponent,
     NotificationComponent,
+    BreadcumbComponent,
   ],
 })
-export class FoundationCommonModule { }
+export class FoundationCommonModule {}

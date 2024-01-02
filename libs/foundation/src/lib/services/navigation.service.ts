@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { LoaderService } from './loader.service';
 import { CoreInterfaces as CoreI, CoreEnums as CoreE, CoreConstants as CoreC } from '@flexsuite/core';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,6 +14,7 @@ export class FlexSuiteNavigationService {
   private _currentModule: CoreE.FlexSuiteModules | undefined;
   private _currentPage: CoreI.NavigationPages | undefined;
   private _currentRoutes: CoreI.ModulePages | undefined;
+  private _currentModuleKey: keyof typeof CoreE.FlexSuiteModules | undefined;
 
   private _currentInfo: BehaviorSubject<CoreI.IFlexSuiteNavigationInfo>;
 
@@ -21,7 +23,6 @@ export class FlexSuiteNavigationService {
     private router: Router,
     private loader: LoaderService
   ) {
-
     this._currentInfo = new BehaviorSubject<CoreI.IFlexSuiteNavigationInfo>({
       path: '',
       module: undefined,
@@ -37,6 +38,7 @@ export class FlexSuiteNavigationService {
         this.getCurrentModuleAndPage();
         this.checkAndModifyTitle();
         this.updateInformation();
+        this.generateBreadcumb();
       }
     })
   }
@@ -49,29 +51,51 @@ export class FlexSuiteNavigationService {
     this._currentInfo.next({
       path: this._currentPath ?? '',
       module: this._currentModule,
+      moduleKey: this._currentModuleKey,
       page: this._currentPage,
       routes: this._currentRoutes,
+      breadcumb: this.generateBreadcumb()
     })
   }
 
   private getCurrentModuleAndPage() {
-    Object.entries(CoreC.FlexSuiteModuleRoutes).forEach(([module, pages]) => {
-      if (!pages) return;
-      // Iterando sobre as páginas do módulo
-      Object.keys(pages).forEach((page) => {
-        if ((pages as string)[page as any] === this._currentPath) {
-          this._currentModule = module as CoreE.FlexSuiteModules;
-          this._currentPage = page as CoreI.NavigationPages;
+    if(this._currentPath === undefined || this._currentPath === null) return;
+    //Primeiro verifica se tem / na rota
+    let tempModuleRoute: any
+    let tempModulePageRoute: any
 
-          Object.entries(CoreC.FlexSuiteModuleRoutes).forEach(([mod, pages]) => {
-            if (mod === module) {
-              this._currentRoutes = pages;
+    if(this._currentPath.includes('/')){
+      //Se tiver, pega o primeiro elemento
+      tempModuleRoute = this._currentPath.split('/')[0];
+      tempModulePageRoute = this._currentPath.split('/')[1];
+    }else{
+      tempModuleRoute = this._currentPath;
+    }
+
+    Object.entries(CoreC.FlexSuiteModuleRoutes).forEach(([module, pages]) => {
+      if(pages?.Home === tempModuleRoute){
+        this._currentRoutes = pages;
+        this._currentModule = module as CoreE.FlexSuiteModules;
+
+        Object.keys(CoreE.FlexSuiteModules).forEach((key) => {
+          if (CoreE.FlexSuiteModules[key as keyof typeof CoreE.FlexSuiteModules] === this._currentModule) {
+            this._currentModuleKey = key as  keyof typeof CoreE.FlexSuiteModules;
+            return;
+          }
+        });
+
+        if(tempModulePageRoute && pages){
+          Object.entries(pages).forEach(([page, route]) => {
+            if(route === tempModulePageRoute){
+              this._currentPage = page as CoreI.NavigationPages;
               return;
             }
-          });
+          })
+        }else{
+          this._currentPage = CoreE.FlexSuiteCommonPages.HOME;
         }
-      });
-    });
+      }
+    })
   }
 
   private checkAndModifyTitle(): void {
@@ -92,6 +116,37 @@ export class FlexSuiteNavigationService {
       //Aguarda aparição do loading
       this.router.navigate([path]);
     },250)
+  }
+
+  private generateBreadcumb(){
+    if(!this._currentModule || !this._currentPage || !this._currentModuleKey) return;
+    console.log(this._currentPage)
+
+    const fatherBreadCumb: CoreI.IBreadCumbRoad = {
+      title: 'Inicio',
+      route: CoreC.FlexSuiteModuleRoutes.Workspace.Home,
+    }
+
+    console.log(this._currentInfo.value,this._currentModule)
+
+    const moduleBreadCumb: CoreI.IBreadCumbRoad | undefined = this._currentModule != CoreE.FlexSuiteModules.WORKS ?
+                        {
+                          title: (CoreE.FlexSuiteModules[this._currentModuleKey] as any)?.replaceAll('_',' '),
+                          route: CoreC.FlexSuiteModuleRoutes[this._currentModule]?.Home
+                        } : undefined;
+
+    const pageBradcumb: CoreI.IBreadCumbRoad | undefined  = this._currentPage != CoreE.FlexSuiteCommonPages.HOME ?
+                        {
+                          title: this._currentPage,
+                          route: CoreC.FlexSuiteModuleRoutes[this._currentModule]?.[this._currentPage]
+                        } : undefined;
+
+    fatherBreadCumb.children = moduleBreadCumb;
+
+    if(moduleBreadCumb)
+      moduleBreadCumb.children = pageBradcumb;
+
+    return fatherBreadCumb;
   }
 
 }

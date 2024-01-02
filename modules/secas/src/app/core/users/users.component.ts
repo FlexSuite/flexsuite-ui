@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoaderService } from '@flexsuite/foundation';
+import { FoundationCommonModule, LoaderService } from '@flexsuite/foundation';
 
 @Component({
   selector: 'secas-users',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FoundationCommonModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })

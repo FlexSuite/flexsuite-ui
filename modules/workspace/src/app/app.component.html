@@ -2,12 +2,13 @@
 <workspace-sidebar/>
 <workspace-navbar/>
 <main
+class="ps-60"
   [ngClass]="{
-    'bg-slate-100 pt-10 md:ps-64 w-full min-h-screen': showPadding()
+    'bg-slate-100 pt-8 md:ps-56 w-full min-h-screen': showPadding()
   }">
-  <div class="w-full p-10"
+  <div
   [ngClass]="{
-    'w-full p-10': showPadding()
+    'w-full ps-14 pt-14 pr-6 ': showPadding()
   }"
   >
     <router-outlet/>

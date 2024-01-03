@@ -1,0 +1,52 @@
+<table class="text-xs uppercase w-full text-left rtl:text-right text-gray-400 drop-shadow-md table-fixed">
+
+  <thead class=" bg-gray-700 text-gray-400">
+    <tr>
+        <th scope="col" class="px-6 py-3" *ngFor="let column of columns">
+            {{column.label}}
+        </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr
+      [ngClass]="{
+        'opacity-50': !onSelectedRowFocused(row) && checkHasRowSelected(),
+        'opacity-100': onSelectedRowFocused(row),
+        'cursor-pointer': !checkHasRowSelected()
+      }"
+      (click)="onRowClick(row)"
+      *ngFor="let row of rows"
+      class="border-none odd:bg-gray-900  even:bg-gray-800 hover:bg-gray-600 w-1/4">
+      <th
+
+        *ngFor="let column of dataColumns"
+        scope="row" class="whitespace-nowrap overflow-hidden text-ellipsis p-1.5 text-center font-medium text-white">
+        <ng-container
+          *ngIf="status === actionStatus.EDITING && onSelectedRowFocused(row); else rawValue"
+        >
+          <ng-container
+          *ngIf="column.type === 'text'"
+          >
+            <input
+              type="text"
+              class="bg-gray-900 bg-opacity-10 p-1.5 uppercase text-center text-xs font-medium text-white w-full h-full rounded-md"
+              [value]="rowValue(row,column)" />
+          </ng-container>
+        </ng-container>
+
+        <ng-template #rawValue>
+          <div class="p-1.5">
+            {{rowValue(row, column)}}
+          </div>
+        </ng-template>
+
+
+      </th>
+
+      <th *ngIf="hasActions">
+        ok
+      </th>
+    </tr>
+  </tbody>
+</table>

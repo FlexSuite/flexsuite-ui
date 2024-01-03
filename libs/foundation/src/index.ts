@@ -17,3 +17,5 @@ export * from './lib/components/page-title/page-title.component';
 export * from './lib/components/action-controller/action-controller.component';
 
 export * from './lib/components/buttons/action-button.component';
+
+export * from './lib/components/table-paginated/table-paginated.component';

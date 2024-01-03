@@ -9,6 +9,7 @@ import { BreadcumbComponent } from './breadcumb/breadcumb.component';
 import { PageTitleComponent } from './page-title/page-title.component';
 import { ActionControllerComponent } from './action-controller/action-controller.component';
 import { ActionButtonComponent } from './buttons/action-button.component';
+import { TablePaginatedComponent } from './table-paginated/table-paginated.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ActionButtonComponent } from './buttons/action-button.component';
     PageTitleComponent,
     ActionControllerComponent,
     ActionButtonComponent,
+    TablePaginatedComponent,
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -31,6 +33,7 @@ import { ActionButtonComponent } from './buttons/action-button.component';
     PageTitleComponent,
     ActionControllerComponent,
     ActionButtonComponent,
+    TablePaginatedComponent,
   ],
 })
 export class FoundationCommonModule {}

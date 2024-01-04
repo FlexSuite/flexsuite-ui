@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { LoaderService } from './loader.service';
 import { CoreInterfaces as CoreI, CoreEnums as CoreE, CoreConstants as CoreC } from '@flexsuite/core';
+import { NotificationService } from './notification.service';
 
 
 @Injectable({
@@ -21,7 +22,8 @@ export class FlexSuiteNavigationService {
 
   constructor(
     private router: Router,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private notification: NotificationService
   ) {
     this._currentInfo = new BehaviorSubject<CoreI.IFlexSuiteNavigationInfo>({
       path: '',
@@ -124,6 +126,11 @@ export class FlexSuiteNavigationService {
   }
 
   public navigate(path: string): void {
+    if(this.isOnTheSamePath(path)) {
+      this.notification.send('Você já está nessa página');
+      return;
+    };
+
     this.loader.show();
     setTimeout(() => {
       //Aguarda aparição do loading
@@ -133,14 +140,11 @@ export class FlexSuiteNavigationService {
 
   private generateBreadcumb(){
     if(!this._currentModule || !this._currentPage || !this._currentModuleKey) return;
-    console.log(this._currentPage)
 
     const fatherBreadCumb: CoreI.IBreadCumbRoad = {
       title: 'Inicio',
       route: CoreC.FlexSuiteModuleRoutes.Workspace.Home,
     }
-
-    console.log(this._currentInfo.value,this._currentModule)
 
     const moduleBreadCumb: CoreI.IBreadCumbRoad | undefined = this._currentModule != CoreE.FlexSuiteModules.WORKS ?
                         {
@@ -160,6 +164,10 @@ export class FlexSuiteNavigationService {
       moduleBreadCumb.children = pageBradcumb;
 
     return fatherBreadCumb;
+  }
+
+  isOnTheSamePath(path: string): boolean {
+    return this._currentPath === path;
   }
 
 }

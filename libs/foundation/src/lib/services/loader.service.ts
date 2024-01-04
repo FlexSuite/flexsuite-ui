@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +7,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class LoaderService {
   private _loading: BehaviorSubject<boolean>;
   private _loadingMessage: BehaviorSubject<string>;
+  private _blocked: BehaviorSubject<boolean>;
+  private _blockedSubs: Subscription | undefined
 
   private _error: BehaviorSubject<boolean>;
   private _errorMessages: BehaviorSubject<string[]>;
@@ -18,8 +20,25 @@ export class LoaderService {
     this._loadingMessage = new BehaviorSubject<string>(this._defaultMessage);
     this._error = new BehaviorSubject<boolean>(false);
     this._errorMessages = new BehaviorSubject<string[]>([]);
+    this._blocked = new BehaviorSubject<boolean>(false);
 
-   }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await(to: Observable<any>){
+    this._blocked.next(true);
+
+    this._blockedSubs = to.subscribe((value) => {
+
+      if(value === false){
+        this._blocked.next(false)
+        this.hide()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        this._blockedSubs?.unsubscribe()
+      }
+    })
+
+  }
 
   show(message: string = this._defaultMessage): void {
     this._loading.next(true);
@@ -27,6 +46,8 @@ export class LoaderService {
   }
 
   hide(): void {
+    if(this._blocked.value) return;
+
     if(this._error.value) {
       throw new Error('Cannot hide loader when error is active');
     };

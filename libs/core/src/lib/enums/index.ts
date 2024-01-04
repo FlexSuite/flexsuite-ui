@@ -1,4 +1,4 @@
 export * from './FlexSuiteNavigation';
 export * from './NotificationType';
-export * from './TableColumnType'
+export * from '../forms/ColumnType'
 export * from './FlexSuiteFormAction';

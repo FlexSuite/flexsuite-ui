@@ -5,4 +5,6 @@ export * from './INotificationItem'
 export * from './ISidebarItem'
 export * from './INotification'
 export * from './IBreadCumb'
-export * from './ITablePaginated'
+
+//modules interfaces
+export * as SECAS from './secas/index'

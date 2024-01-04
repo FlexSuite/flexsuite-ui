@@ -33,6 +33,7 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
         *ngIf="icon"
         [icon]="icon"/>
         <span
+        *ngIf="!hideLabel"
         class="empty:hidden hidden md:block"
         >
           {{label}}
@@ -53,6 +54,7 @@ export class ActionButtonComponent {
   @Input({required:true}) label: string | undefined
   @Input() description: string | undefined
   @Input() block: boolean | undefined
+  @Input() hideLabel: boolean | undefined
 
   @Output() buttonClick: EventEmitter<void> = new EventEmitter<void>();
 

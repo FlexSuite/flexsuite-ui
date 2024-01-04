@@ -20,6 +20,7 @@
       "@flexsuite/core/enums": ["libs/core/src/lib/enums/index.ts"],
       "@flexsuite/core/icons": ["libs/core/src/lib/icons/index.ts"],
       "@flexsuite/core/interfaces": ["libs/core/src/lib/interfaces/index.ts"],
+      "@flexsuite/core/forms": ["libs/core/src/lib/forms/index.ts"],
       "@flexsuite/foundation": ["libs/foundation/src/index.ts"],
       "analy/Routes": ["modules/analy/src/app/remote-entry/entry.routes.ts"],
       "atend/Routes": ["modules/atend/src/app/remote-entry/entry.routes.ts"],

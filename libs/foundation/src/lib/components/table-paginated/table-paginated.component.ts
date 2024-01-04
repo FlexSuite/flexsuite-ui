@@ -1,98 +1,104 @@
-import { Component, Input } from '@angular/core';
-import { CoreEnums, CoreInterfaces } from '@flexsuite/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CoreEnums, CoreIcons, Form } from '@flexsuite/core';
 
 @Component({
   selector: 'foundation-table-paginated',
   templateUrl: './table-paginated.component.html',
   styles: ``,
 })
-export class TablePaginatedComponent {
-  @Input({required:true}) info: CoreInterfaces.ITablePaginated | undefined
+export class TablePaginatedComponent implements OnInit{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input({required:true}) form: Form.FormBase<any> | undefined
 
-  actionStatus = CoreEnums.FlexSuiteFormActionStatus
-
-  status:CoreEnums.FlexSuiteFormActionStatus = CoreEnums.FlexSuiteFormActionStatus.EDITING
-
+  private actionStatus = CoreEnums.FlexSuiteFormActionStatus
+  private status:CoreEnums.FlexSuiteFormActionStatus = CoreEnums.FlexSuiteFormActionStatus.EDITING
+  private table: Form.ITable | undefined
   private selectedIndex: number | undefined
-  private selectedRow: CoreInterfaces.ITablePaginatedRow | undefined
-  private nextRow: CoreInterfaces.ITablePaginatedRow | undefined
-  private previousRow: CoreInterfaces.ITablePaginatedRow | undefined
+  private selectedRow: Form.ITableRow | undefined
+  private nextRow: Form.ITableRow  | undefined
+  private previousRow: Form.ITableRow  | undefined
+  rows: Form.ITableRow[] = []
+  loading:boolean = true
 
-  get columns(): CoreInterfaces.ITablePaginatedColumn[] {
-    return this.info?.columns || []
+  editIcon = CoreIcons.editIcon
+  deleteIcon = CoreIcons.deleteIcon
+
+  ngOnInit(): void {
+    if(!this.form){
+      throw new Error('Form is required')
+    }
+
+    this.form.loading.subscribe(loading => {
+      this.loading = loading
+
+    })
+
+    this.form.ready.subscribe(ready => {
+
+      if(!ready) return
+      this.table = this.form?.table()
+
+      this.table?.rows?.subscribe(rows => {
+        this.rows = rows
+
+      })
+    })
   }
 
-  get dataColumns(): CoreInterfaces.ITablePaginatedColumn[] {
-    return this.info?.columns.filter(col => col.type != 'actions') || []
+
+  get columns(): Form.ITableColumn[] {
+    return this.table?.columns || []
   }
 
-  get rows(): CoreInterfaces.ITablePaginatedRow[] {
-    return this.info?.rows || []
+  get dataColumns(): Form.ITableColumn[] {
+    return this.table?.columns.filter(col => typeof col != 'string') || []
   }
 
   get hasActions(): boolean {
-    return this.columns.some(column => column.type === 'actions')
+    return this.table?.actions !== undefined
   }
 
-  get actions(): CoreInterfaces.TablePaginatedColActions {
-    if(!this.hasActions) return {}
-    const column = this.columns.find(column => column.type === 'actions')
-    return column?.actions || {}
+  get actions(): Form.ITableRowActions| void {
+    if(!this.hasActions)
+      return
+    return this.table?.actions
+  }
+
+  get showActions(): boolean {
+    return this.hasActions && !this.table?.hideActionsCol
   }
 
 
-  //Row Value Helpers
-
-  rowValue(row: CoreInterfaces.ITablePaginatedRow, column: CoreInterfaces.ITablePaginatedColumn): string {
-    const key = column.key || column.label
-    return row[key] || ''
+  rowValue(row:  Form.ITableRow, column:  Form.ITableColumn) {
+    return this.form?.getColumnValue(row, column)
   }
 
-  checkHasRowSelected(): boolean {
-    return this.selectedRow !== undefined
-  }
 
-  checkHasNextRow(): boolean {
-    return this.nextRow !== undefined
-  }
-
-  checkHasPreviousRow(): boolean {
-    return this.previousRow !== undefined
-  }
-
-  checkHasRowActions(): boolean {
-    return this.hasActions && this.selectedRow !== undefined
-  }
-
-  checkClickedOnSameRow(row: CoreInterfaces.ITablePaginatedRow): boolean {
+  checkClickedOnSameRow(row:  Form.ITableRow): boolean {
     return this.selectedRow === row
   }
+
 
 
   //Row actions and manipulation
 
-  onSelectedRowFocused(row: CoreInterfaces.ITablePaginatedRow){
+  onSelectedRowFocused(row:  Form.ITableRow){
     return this.selectedRow === row
   }
 
-  onRowClick(row: CoreInterfaces.ITablePaginatedRow){
-    if(this.checkClickedOnSameRow(row)) return
+  onRowClick(row:  Form.ITableRow){
+    if(this.checkClickedOnSameRow(row)){
+      // this.resetRow()
+      return
+    }
 
     this.resetRow()
     this.setSelectedRow(row)
     this.verifyNextRow()
     this.verifyPreviousRow()
-
-    console.log('setSelectedRow', {
-      status: this.status,
-      row,
-      actualIndex:this.selectedIndex,
-      nextRow: this.nextRow,
-      previousRow: this.previousRow,
-    })
   }
 
-  setSelectedRow(row: CoreInterfaces.ITablePaginatedRow){
+  setSelectedRow(row:  Form.ITableRow){
     this.selectedRow = row
     this.selectedIndex = this.rows.indexOf(row)
   }
@@ -108,10 +114,14 @@ export class TablePaginatedComponent {
   }
 
   resetRow(){
-    console.log('resetingRow')
+
     this.selectedIndex = undefined
     this.selectedRow = undefined
     this.nextRow = undefined
     this.previousRow = undefined
   }
+
+  enableToUpdate(){
+  }
+
 }

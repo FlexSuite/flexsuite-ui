@@ -1,9 +1,14 @@
-<table class="text-xs uppercase w-full text-left rtl:text-right text-gray-400 drop-shadow-md table-fixed">
+<table
+  *ngIf="!loading"
+class="text-xs uppercase w-full text-left rtl:text-right text-gray-400 drop-shadow-md table-fixed">
 
   <thead class=" bg-gray-700 text-gray-400">
     <tr>
-        <th scope="col" class="px-6 py-3" *ngFor="let column of columns">
+        <th scope="col" class="px-6 py-3 text-center" *ngFor="let column of columns">
             {{column.label}}
+        </th>
+        <th scope="col" class="px-6 py-3" *ngIf="showActions">
+            Ações
         </th>
     </tr>
   </thead>
@@ -11,41 +16,41 @@
   <tbody>
     <tr
       [ngClass]="{
-        'opacity-50': !onSelectedRowFocused(row) && checkHasRowSelected(),
-        'opacity-100': onSelectedRowFocused(row),
-        'cursor-pointer': !checkHasRowSelected()
+        'border-b border-gray-800': !onSelectedRowFocused(row),
+        'border-b border-blue-500': onSelectedRowFocused(row),
       }"
       (click)="onRowClick(row)"
       *ngFor="let row of rows"
-      class="border-none odd:bg-gray-900  even:bg-gray-800 hover:bg-gray-600 w-1/4">
+      class="cursor-pointer odd:bg-gray-900  even:bg-gray-800 hover:bg-gray-600 w-1/4">
       <th
-
         *ngFor="let column of dataColumns"
-        scope="row" class="whitespace-nowrap overflow-hidden text-ellipsis p-1.5 text-center font-medium text-white">
-        <ng-container
-          *ngIf="status === actionStatus.EDITING && onSelectedRowFocused(row); else rawValue"
-        >
-          <ng-container
-          *ngIf="column.type === 'text'"
-          >
-            <input
-              type="text"
-              class="bg-gray-900 bg-opacity-10 p-1.5 uppercase text-center text-xs font-medium text-white w-full h-full rounded-md"
-              [value]="rowValue(row,column)" />
-          </ng-container>
+        scope="row" class="whitespace-normal break-all p-1.5 text-center font-medium text-white">
+
+        <!-- CheckBox value -->
+        <ng-container *ngIf="column.type === 'checkbox'; else default">
+          <input disabled id="disabled-checkbox" type="checkbox"
+            [checked]="rowValue(row,column)"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
         </ng-container>
 
-        <ng-template #rawValue>
-          <div class="p-1.5">
-            {{rowValue(row, column)}}
-          </div>
+        <ng-template #default>
+          {{rowValue(row,column)}}
         </ng-template>
-
-
       </th>
 
-      <th *ngIf="hasActions">
-        ok
+      <th *ngIf="showActions" class="flex">
+        <foundation-action-button
+            [icon]="editIcon"
+            label="Editar"
+            [hideLabel]="true"
+            color="blue"
+          />
+        <foundation-action-button
+            [icon]="deleteIcon"
+            label="Excluir"
+            [hideLabel]="true"
+            color="red"
+            />
       </th>
     </tr>
   </tbody>
